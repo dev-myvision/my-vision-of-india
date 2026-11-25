@@ -28,6 +28,7 @@ let gltfModel;     // the book
 let modelPivot;    // pivot group for perfect center-rotation
 let mixer;
 let viewLight;    // follows the camera so front and back covers are lit alike
+let keyLight;     // the shadow-casting light
 let clock = null;
 let currentScroll = 0;   // smoothed accumulated scroll for lerping
 
@@ -70,6 +71,90 @@ const PIVOT_Y = -0.2;
 let fadeMaterials = [];
 let fadeProgress = 1;
 
+// ---- Slow graphics -----------------------------------------------------------
+// The stage is drawn for a graphics chip. Without one (graphics acceleration switched off, some
+// low-end phones, Google's PageSpeed test) the browser draws every frame on the CPU, and each
+// frame can hold the page up for a few hundred milliseconds. So the stage steps down only as far
+// as it has to; on a working graphics chip it never steps down at all.
+//   light: one pixel per CSS pixel, and a smaller shadow map (its soft edge is kept).
+//   still: the stage is drawn only when something moves (scroll, pointer, resize); the gold dust rests.
+const gfx = {
+    software: false,   // no graphics chip at all: light, still and without antialiasing from the start
+    light: false,
+    still: false,
+    dirty: true,       // still: draw the next frame whether or not anything has moved
+    drawn: [],         // still: the camera, book and background as last drawn
+    dustRested: false, // still: the dust has had its fade applied once, where it stands
+    gaps: [],          // ms between drawn frames, while the stage is drawing steadily
+    lastDraw: 0
+};
+const GAP_LIGHT = 40;   // a median under 25 fps: step down to light (above a 30 fps battery-saver cap)
+const GAP_STILL = 50;   // still that slow once light: every frame is a long task, so draw only on change
+
+const pixelRatio = () => (gfx.light ? 1 : Math.min(window.devicePixelRatio, 2));
+
+// A browser that can only draw on the CPU refuses a context that asks for no "major performance
+// caveat"; the renderer's name confirms it where the browser shares it.
+function detectSoftwareGraphics() {
+    try {
+        const probe = document.createElement('canvas');
+        const options = { failIfMajorPerformanceCaveat: true };
+        const gl = probe.getContext('webgl2', options) || probe.getContext('webgl', options);
+        if (!gl) return !!(probe.getContext('webgl2') || probe.getContext('webgl'));
+        let name = String(gl.getParameter(gl.RENDERER));
+        if (/^webkit webgl$/i.test(name)) {
+            const info = gl.getExtension('WEBGL_debug_renderer_info');
+            if (info) name = String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL));
+        }
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+    } catch {
+        return false;
+    }
+}
+
+function stepDown() {
+    if (!gfx.light) {
+        gfx.light = true;
+        keyLight.shadow.mapSize.set(1024, 1024);
+        if (keyLight.shadow.map) { keyLight.shadow.map.dispose(); keyLight.shadow.map = null; }
+        onWindowResize();   // applies the new pixel ratio
+    } else {
+        gfx.still = true;
+    }
+    gfx.dirty = true;
+}
+
+// Times the gaps between drawn frames and steps down if the median is too slow. Only steady
+// drawing counts: not the first frame after a pause or a hidden tab, nor the book's fade-in,
+// while its textures and shaders are being sent to the graphics chip.
+function timeFrame() {
+    if (gfx.still) return;
+    const now = performance.now();
+    const gap = now - gfx.lastDraw;
+    gfx.lastDraw = now;
+    if (gap > 1000 || fadeProgress < 1) return;
+    gfx.gaps.push(gap);
+    if (gfx.gaps.length < 40) return;
+    const median = gfx.gaps.sort((a, b) => a - b)[20];
+    gfx.gaps = [];
+    if (median > (gfx.light ? GAP_STILL : GAP_LIGHT)) stepDown();
+}
+
+// In still mode: has anything moved by more than a fraction of a pixel since the last drawn frame?
+function stillFrameChanged() {
+    const u = shaderUniforms;
+    const now = [
+        ...camera.position.toArray(), ...camera.quaternion.toArray(),
+        modelPivot ? 1 : 0, modelPivot ? modelPivot.rotation.x : 0, modelPivot ? modelPivot.rotation.y : 0,
+        fadeProgress, u.uFabricReady.value, u.uScroll.value,
+        u.uBookPos.value.x, u.uBookPos.value.y, u.uMouse.value.x, u.uMouse.value.y
+    ];
+    const changed = gfx.dirty || now.some((v, i) => !(Math.abs(v - gfx.drawn[i]) < 1e-3));
+    if (changed) { gfx.drawn = now; gfx.dirty = false; }
+    return changed;
+}
+
 // ============================================================================
 // Scene
 // ============================================================================
@@ -92,14 +177,17 @@ function initScene() {
 
     createBackgroundShader();   // adds the wave plane as a child of the camera
 
+    gfx.software = detectSoftwareGraphics();
+    if (gfx.software) gfx.light = gfx.still = true;
+
     renderer = new THREE.WebGLRenderer({
         canvas: canvas,
-        antialias: true,
+        antialias: !gfx.software,
         alpha: false,
         powerPreference: "high-performance"
     });
     renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(pixelRatio());
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -118,13 +206,12 @@ function createLighting() {
     scene.add(ambientLight);
 
     // Key light: super-bright white from upper-right, casts shadows
-    const keyLight = new THREE.SpotLight('#fff0d8', 18.0);
+    keyLight = new THREE.SpotLight('#fff0d8', 18.0);
     keyLight.position.set(4, 6, 3);
     keyLight.angle = Math.PI / 4;
     keyLight.penumbra = 0.9;
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.mapSize.width = keyLight.shadow.mapSize.height = gfx.light ? 1024 : 2048;
     keyLight.shadow.camera.near = 1.0;
     keyLight.shadow.camera.far = 15;
     keyLight.shadow.bias = -0.001;
@@ -695,7 +782,8 @@ function onWindowResize() {
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
     renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(pixelRatio());
+    gfx.dirty = true;
     // gl_FragCoord is in device pixels, so the shader needs the drawing-buffer size, not the CSS size;
     // otherwise the waves and the vignette sit off-centre on high-density screens
     if (shaderUniforms) renderer.getDrawingBufferSize(shaderUniforms.uResolution.value);
@@ -773,7 +861,7 @@ function animate() {
     updateGridDots(currentScroll);
     if (!renderer) return;
     // once the chapters cover the stage, there is nothing to draw until the reader comes back
-    if (scrollTop >= layout.chaptersTop) return;
+    if (scrollTop >= layout.chaptersTop) { gfx.lastDraw = 0; gfx.dirty = true; return; }
 
     // gentle interactive model tilt from mouse
     if (modelPivot) {
@@ -783,7 +871,8 @@ function animate() {
 
     // the book fades into presence once its covers have resolved
     if (fadeProgress < 1) {
-        fadeProgress = Math.min(1, fadeProgress + deltaTime / 1.6);
+        // in still mode the book simply appears: a fade would be a run of slow frames
+        fadeProgress = gfx.still ? 1 : Math.min(1, fadeProgress + deltaTime / 1.6);
         const opacity = fadeProgress * fadeProgress * (3 - 2 * fadeProgress);
         fadeMaterials.forEach((m) => { m.opacity = opacity * (m.userData.baseOpacity ?? 1); });
         // shadows stay transparent; everything else becomes solid again once it has faded in
@@ -793,7 +882,11 @@ function animate() {
     }
 
     // 2. sparks physics, accelerated/turbulent on fast scroll
-    if (sparkParticles) {
+    const frameDelta = deltaTime;
+    if (sparkParticles && !(gfx.still && gfx.dustRested)) {
+        // in still mode the dust rests where it stands, faded at the top and bottom as usual
+        const deltaTime = gfx.still ? 0 : frameDelta;
+        gfx.dustRested = gfx.still;
         const positions = sparkParticles.geometry.attributes.position.array;
         const time = clock.getElapsedTime();
         const scrollVelocity = Math.abs(targetScroll - currentScroll);
@@ -870,7 +963,7 @@ function animate() {
 
         // the fabric fades in once loaded, and its light pool follows the book across the screen
         if (fabricLoaded && shaderUniforms.uFabricReady.value < 1) {
-            shaderUniforms.uFabricReady.value = Math.min(1, shaderUniforms.uFabricReady.value + deltaTime / 1.2);
+            shaderUniforms.uFabricReady.value = gfx.still ? 1 : Math.min(1, shaderUniforms.uFabricReady.value + deltaTime / 1.2);
         }
         if (modelPivot) {
             camera.updateMatrixWorld();
@@ -881,7 +974,9 @@ function animate() {
         }
     }
 
+    if (gfx.still && !stillFrameChanged()) return;
     renderer.render(scene, camera);
+    timeFrame();
 }
 
 // ---- Framing: where the camera looks, left/right, across the scroll ----
