@@ -31,7 +31,7 @@ export default function HomeMarkup() {
           <p className="slide-kicker">The Short Edition</p>
           <h1 className="slide-title">My Vision <br />of India</h1>
           <div className="desc-row">
-            <p className="slide-desc col-1">By Joshua Paul Voola. Forty reforms from three books of more than two thousand pages, in one shorter volume you can read in a few evenings.</p>
+            <p className="slide-desc col-1">By Joshua Paul Voola. Forty-one reforms from three books of more than two thousand pages, in one shorter volume you can read in a few evenings.</p>
             <p className="slide-desc col-2">One question is asked of every reform in it. Would this make India work better for its people?</p>
           </div>
         </div>
