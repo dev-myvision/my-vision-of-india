@@ -271,3 +271,7 @@ body:has(.pg) { margin: 0; background: #140c0e; }
   .pg-foot-card { padding: 40px 16px 24px; }
   .pg-foot-bar { margin-top: 28px; }
 }
+
+/* ---------- the book pages scroll smoothly to their links, and do not bounce past their ends ---------- */
+html:has(.pg-crumbs) { scroll-behavior: smooth; overscroll-behavior-y: none; }
+@media (prefers-reduced-motion: reduce) { html:has(.pg-crumbs) { scroll-behavior: auto; } }

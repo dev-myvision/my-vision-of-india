@@ -3224,3 +3224,13 @@ dialog.order .o-privacy a { color: #5a1428; text-decoration: underline; text-und
     .bk-after { gap: 44px; margin-top: 48px; }
     .lc-dash { margin: 16px 0 !important; }
 }
+
+/* ---------- Scrolling: native and smooth, with nothing showing through ---------- */
+html { overscroll-behavior-y: none; }
+
+/* the slide titles stay hidden until their letters are ready, so all four never flash at once */
+.slide-title:not(:has(.char)) { visibility: hidden; }
+
+/* once the chapters cover the screen, the fixed 3D layers behind them are put away */
+.stage-off #webgl, .stage-off .grid-lines, .stage-off .grid-horizontal-line,
+.stage-off .cinematic-container, .stage-off .scroll-cue { visibility: hidden; }

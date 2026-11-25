@@ -949,13 +949,12 @@ function updateSlides(scroll, target = scroll) {
 }
 
 // ---- Navigation -----------------------------------------------------------------------
-// Over the stage, the browser scrolls: nothing is intercepted, so it feels native on every
-// trackpad, mouse and phone, and the book turns with the finger. When the scrolling stops,
-// the page glides on to the next stop in the direction it was moving (or back to the one it
-// left, after a tiny accidental nudge), so every slide is seen whole. The stops are the four
-// slides and then the start of the chapters; once the reader is in the chapters, the page
-// scrolls freely like any other.
-// Keys, the header links and the progress marks move straight from stop to stop.
+// The browser does all the scrolling: nothing is intercepted, so it feels native and smooth on
+// every trackpad, mouse and phone, and the book turns with the finger. Only once the page has
+// come fully to rest (momentum and all) and stayed still for a moment, and only if it rests close
+// to a slide, does it ease the last little way onto that slide. Stopped between slides, it stays
+// put. Any wheel, touch or key cancels a pending ease. Keys, the header links and the progress
+// marks glide straight from stop to stop.
 const STOPS = [0.0, 0.34, 0.62, 1.0];   // the slides, as fractions of the stage track
 const CHAPTERS = STOPS.length;          // the stop after the last slide
 
@@ -966,74 +965,35 @@ function setupNavigation() {
     const nearestSlide = (y) => STOPS.reduce((best, _, i) => (Math.abs(stopY(i) - y) < Math.abs(stopY(best) - y) ? i : best), 0);
     const dialogOpen = () => !!document.querySelector('dialog[open]');
 
-    let restIndex = overStage(window.scrollY) ? nearestSlide(window.scrollY) : CHAPTERS;   // the stop the page last came to rest on
-    let glide = 0;                             // the running glide's animation frame, if any
-    let lastY = window.scrollY, userDir = 0;   // which way the reader was last scrolling
-    let setY = -1;                             // the last position the page scrolled itself to
-    let touching = false, idleTimer = 0;
+    const here = () => (overStage(window.scrollY) ? nearestSlide(window.scrollY) : CHAPTERS);
 
-    // Taking hold of the page during a glide stops it. The glide's stop then counts as reached, so a
-    // further scroll moves on from it (three quick scrolls are three slides), and simply touching
-    // the page without moving lets the glide carry on to where it was going.
-    function stopGlide() { if (glide) { cancelAnimationFrame(glide); glide = 0; userDir = 0; } }
-
+    // a glide is the browser's own smooth scroll to a stop
+    let restIndex = here();
+    let glidingUntil = 0;
     function glideTo(to) {
-        stopGlide();
-        const from = window.scrollY;
-        if (Math.abs(to - from) < 1 || reducedMotion.matches) { setY = to; window.scrollTo(0, to); return; }
-        const duration = Math.min(1100, 480 + 700 * Math.abs(to - from) / layout.story);
-        const t0 = performance.now();
-        const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
-        const frame = (now) => {
-            const k = Math.min(1, (now - t0) / duration);
-            setY = Math.round(from + (to - from) * ease(k));
-            window.scrollTo(0, setY);
-            glide = k < 1 ? requestAnimationFrame(frame) : 0;
-            if (!glide) userDir = 0;
-        };
-        glide = requestAnimationFrame(frame);
+        glidingUntil = performance.now() + 1200;
+        window.scrollTo({ top: to, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
     }
     function goTo(i) {
         restIndex = Math.max(0, Math.min(CHAPTERS, i));
         glideTo(stopY(restIndex));
     }
 
-    // once the reader stops over the stage, finish the move they started
-    function settle() {
-        if (touching || glide || dialogOpen()) return;
+    // at rest near a stop, ease onto it
+    let quiet = 0;
+    function easeOntoNearStop() {
+        if (dialogOpen() || reducedMotion.matches || performance.now() < glidingUntil) return;
         const y = window.scrollY;
-        if (!overStage(y)) { restIndex = CHAPTERS; return; }
-        if (userDir === 0 || Math.abs(y - stopY(restIndex)) < 0.012 * layout.story) { goTo(restIndex); return; }   // no real move, or a nudge
-        // at least one stop on from where the page rested, or further if the reader scrolled past it
-        let ahead;
-        if (userDir > 0) {
-            let first = 0;
-            while (first < CHAPTERS && stopY(first) < y - 1) first++;
-            ahead = Math.max(restIndex + 1, first);
-        } else {
-            let last = CHAPTERS;
-            while (last > 0 && stopY(last) > y + 1) last--;
-            ahead = Math.min(restIndex - 1, last);
-        }
-        goTo(ahead);
+        if (y > layout.chaptersTop + 2) return;
+        let best = 0;
+        for (let i = 1; i <= CHAPTERS; i++) if (Math.abs(stopY(i) - y) < Math.abs(stopY(best) - y)) best = i;
+        const gap = Math.min(...[best - 1, best + 1].filter((j) => j >= 0 && j <= CHAPTERS).map((j) => Math.abs(stopY(j) - stopY(best))));
+        const off = Math.abs(stopY(best) - y);
+        if (off > 2 && off < gap * 0.22) goTo(best);
     }
-
-    window.addEventListener('scroll', () => {
-        const y = window.scrollY;
-        // the page's own glide can report its last step just after the reader stops it; that is not the reader moving
-        if (!glide && y !== lastY && y !== setY) userDir = Math.sign(y - lastY);
-        lastY = y;
-        if (!glide && !overStage(y)) restIndex = CHAPTERS;
-        clearTimeout(idleTimer);
-        if (!glide) idleTimer = setTimeout(settle, 140);
-    }, { passive: true });
-
-    // the reader taking hold again always wins over a glide in progress
-    window.addEventListener('wheel', stopGlide, { passive: true });
-    window.addEventListener('touchstart', () => { touching = true; stopGlide(); }, { passive: true });
-    const release = () => { touching = false; clearTimeout(idleTimer); idleTimer = setTimeout(settle, 140); };
-    window.addEventListener('touchend', release, { passive: true });
-    window.addEventListener('touchcancel', release, { passive: true });
+    const whenStill = () => { clearTimeout(quiet); quiet = setTimeout(easeOntoNearStop, 380); };
+    window.addEventListener('onscrollend' in window ? 'scrollend' : 'scroll', whenStill, { passive: true });
+    ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((type) => window.addEventListener(type, () => clearTimeout(quiet), { passive: true }));
 
     // over the stage, keys move exactly one stop; in the chapters they scroll as usual
     window.addEventListener('keydown', (e) => {
@@ -1043,15 +1003,15 @@ function setupNavigation() {
         if (window.scrollY > layout.chaptersTop + 2) return;
         const onControl = e.target.closest && e.target.closest('button, a');
         const moves = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1 };
-        let next = null;
-        if (moves[e.key]) next = restIndex + moves[e.key];
-        else if (e.key === ' ' && !onControl) next = restIndex + (e.shiftKey ? -1 : 1);
-        if (next === null || next > CHAPTERS) return;
+        let step = 0;
+        if (moves[e.key]) step = moves[e.key];
+        else if (e.key === ' ' && !onControl) step = e.shiftKey ? -1 : 1;
+        if (!step) return;
+        const from = performance.now() < glidingUntil ? restIndex : here();   // quick presses keep moving on
+        const next = from + step;
+        if (next > CHAPTERS || next < 0) return;
         e.preventDefault();
         goTo(next);
-    });
-    window.addEventListener('resize', () => {
-        if (!glide && overStage(window.scrollY) && restIndex < CHAPTERS) window.scrollTo(0, stopY(restIndex));
     });
 
     const navLinks = [...document.querySelectorAll('.nav-link')];
@@ -1085,6 +1045,7 @@ function setupNavigation() {
         const root = document.documentElement;
         root.classList.toggle('has-scrolled', y > 24);
         root.classList.toggle('past-stage', y > layout.chaptersTop - 90);
+        root.classList.toggle('stage-off', y > layout.chaptersTop + 4);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);

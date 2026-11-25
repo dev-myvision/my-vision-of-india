@@ -234,38 +234,9 @@ document.querySelectorAll('[data-inview]').forEach((el) => {
         .observe(document.getElementById('contact'));
 })();
 
-// ---- Smooth wheel scrolling through the chapters ----------------------------------------
-// Over the stage the browser scrolls on its own, so the book glides from slide to slide as before.
-// Below it, a mouse wheel's steps are eased into one smooth glide. Trackpads and touch screens
-// already scroll smoothly and are left alone, as are the keyboard and the order form.
-(() => {
-    if (reduceMotion) return;
-    const chapters = document.querySelector('.chapters');
-    let target = scrollY, current = scrollY, running = false, lastT = 0;
-    const maxY = () => document.documentElement.scrollHeight - innerHeight;
-    const step = (now) => {
-        const dt = Math.min(0.05, (now - (lastT || now - 16)) / 1000); lastT = now;
-        current += (target - current) * (1 - Math.exp(-dt * 10));   // eases out in about a third of a second
-        if (Math.abs(target - current) < 0.5) current = target;
-        window.scrollTo(0, Math.round(current));
-        running = current !== target;
-        if (running) requestAnimationFrame(step); else lastT = 0;
-    };
-    addEventListener('scroll', () => { if (!running) { target = current = scrollY; } }, { passive: true });
-    addEventListener('wheel', (e) => {
-        if (e.ctrlKey || e.defaultPrevented || document.documentElement.classList.contains('dialog-open')) return;
-        const lines = e.deltaMode === 1, steps = lines || Math.abs(e.deltaY) >= 50;   // a wheel's notch, not a trackpad's glide
-        if (!steps || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-        const top = chapters.offsetTop;
-        const from = running ? target : scrollY;
-        if (from < top - 2) return;                                 // over the stage: native, so its glide still works
-        const next = Math.max(0, Math.min(maxY(), from + (lines ? e.deltaY * 40 : e.deltaY)));
-        if (next < top) return;                                     // heading up into the stage: let the browser take it
-        e.preventDefault();
-        target = next;
-        if (!running) { current = scrollY; running = true; requestAnimationFrame(step); }
-    }, { passive: false });
-})();
+// ---- Scrolling ------------------------------------------------------------------------
+// The browser scrolls the whole page itself, smoothly, on every mouse, trackpad and phone.
+// Nothing here takes the wheel over, so the scroll never fights the reader.
 
 // ---- Hover touches (not on phones) ---------------------------------------------------
 document.querySelectorAll('.pill').forEach((pill) => hoverSpring(pill, pill.querySelector('svg'), { x: 0 }, { x: 5 }, [320, 20]));
