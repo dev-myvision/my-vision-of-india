@@ -36,7 +36,7 @@ const bookJsonLd = {
 export default function Home() {
   // Fetch the 3D stage and three.js while the page is still parsing.
   preloadModule('/js/stage.js');
-  preloadModule('/vendor/three/three.module.js');
+  preloadModule('/vendor/three/three.module.min.js');
 
   return (
     <>

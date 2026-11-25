@@ -13,13 +13,8 @@ const IMAGES = '/images/';   // the WebP files in public/images
 const CINZEL = getComputedStyle(document.documentElement).getPropertyValue('--ff-cinzel').trim() || '"Cinzel"';
 
 // ---- Three.js (served from public/vendor/three, version 0.160.0) -------------
+// Loaded by the bootstrap at the bottom, once the titles are already on screen.
 let THREE = null, GLTFLoader = null;
-try {
-    THREE = await import('/vendor/three/three.module.js');
-    if (MODEL_URL) ({ GLTFLoader } = await import('/vendor/three/loaders/GLTFLoader.js'));
-} catch (error) {
-    console.warn('Three.js could not be loaded; showing the page without the 3D stage.', error);
-}
 
 // ---- Globals -----------------------------------------------------------------
 const canvas = document.querySelector('#webgl');
@@ -355,10 +350,45 @@ function loadImage(src) {
     return new Promise((resolve) => {
         const image = new Image();
         image.decoding = 'async';
-        image.onload = () => resolve(image);
+        // decoded in the background now, rather than on the main thread when it goes to the graphics chip
+        image.onload = () => image.decode().catch(() => {}).then(() => resolve(image));
         image.onerror = () => { console.error('Could not load ' + src); resolve(null); };
         image.src = src;
     });
+}
+
+// The covers are the largest textures. WebGL wants them upside down, and flipping a decoded image
+// on the main thread as it goes to the graphics chip took about half a second each on a phone.
+// Where the browser can decode and flip them in the background (an ImageBitmap), it does; the flip
+// is tried on a two-pixel image first, since older Safari ignores the option.
+let bitmapsFlip = null;
+async function canFlipBitmaps() {
+    if (bitmapsFlip === null) {
+        try {
+            const twoPixels = paintCanvas(1, 2, (ctx) => {
+                ctx.fillStyle = '#f00'; ctx.fillRect(0, 0, 1, 1);
+                ctx.fillStyle = '#00f'; ctx.fillRect(0, 1, 1, 1);
+            });
+            const bitmap = await createImageBitmap(twoPixels, { imageOrientation: 'flipY' });
+            const top = paintCanvas(1, 2, (ctx) => ctx.drawImage(bitmap, 0, 0)).getContext('2d').getImageData(0, 0, 1, 1).data;
+            bitmapsFlip = top[2] > 200 && top[0] < 50;   // the blue pixel is now on top
+        } catch {
+            bitmapsFlip = false;
+        }
+    }
+    return bitmapsFlip;
+}
+
+async function loadCover(src) {
+    if (await canFlipBitmaps()) {
+        try {
+            const response = await fetch(src);
+            if (response.ok) return await createImageBitmap(await response.blob(), { imageOrientation: 'flipY' });
+        } catch {
+            // fall back to an ordinary image below
+        }
+    }
+    return loadImage(src);
 }
 
 function paintCanvas(width, height, draw) {
@@ -378,35 +408,57 @@ function paintCloth(ctx, w, h, color) {
 // One texture that tells the material where the gold foil is.
 // R = emboss height (raised foil, and the pressed hinge groove), G = roughness, B = metalness.
 // grooveU: where the hinge groove runs across the cover (0..1 from the left), or -1 for none.
-function makeFoilMap(source, grooveU = -1) {
-    try {
-        const sw = source.naturalWidth || source.width, sh = source.naturalHeight || source.height;
-        const w = Math.min(1024, sw), h = Math.max(1, Math.round(w * sh / sw));
-        const c = document.createElement('canvas');
-        c.width = w; c.height = h;
-        const ctx = c.getContext('2d', { willReadFrequently: true });
-        ctx.drawImage(source, 0, 0, w, h);
-        const image = ctx.getImageData(0, 0, w, h), d = image.data;
-        const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
-        for (let i = 0; i < d.length; i += 4) {
-            const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255;
-            // foil is warm and bright, and far more yellow than the cream paper or the skin tones
-            const gold = smooth(0.26, 0.36, g - b) * smooth(0.58, 0.78, r);
-            const u = ((i / 4) % w) / w;
-            const groove = grooveU >= 0 ? 0.45 * Math.exp(-(((u - grooveU) / 0.005) ** 2)) : 0;
-            d[i]     = Math.max(0, 0.5 + 0.5 * gold - groove) * 255;
-            d[i + 1] = (CLOTH_ROUGHNESS + (FOIL_ROUGHNESS - CLOTH_ROUGHNESS) * gold) * 255;
-            d[i + 2] = FOIL_METALNESS * gold * 255;
-            d[i + 3] = 255;
-        }
-        ctx.putImageData(image, 0, 0);
-        const texture = new THREE.CanvasTexture(c);
-        texture.anisotropy = 16;
-        return texture;
-    } catch (error) {
-        console.warn('Foil map skipped:', error.message);
-        return null;
-    }
+// It is drawn by the graphics chip from the cover texture, by the same formula as before; done on the
+// CPU it meant reading a million and a half pixels back out of a canvas (about a second on a phone)
+// and then sending the result to the graphics chip as another large texture. showBook() draws it.
+const foilBakes = [];
+function makeFoilMap(cover, grooveU = -1) {
+    const image = cover.image;
+    const sw = image.naturalWidth || image.width, sh = image.naturalHeight || image.height;
+    const w = Math.min(1024, sw), h = Math.max(1, Math.round(w * sh / sw));
+    const target = new THREE.WebGLRenderTarget(w, h, {
+        depthBuffer: false, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter
+    });
+    target.texture.anisotropy = 16;
+    foilBakes.push(() => {
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                uCover: { value: cover }, uGroove: { value: grooveU },
+                uClothRough: { value: CLOTH_ROUGHNESS }, uFoilRough: { value: FOIL_ROUGHNESS }, uFoilMetal: { value: FOIL_METALNESS }
+            },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
+            `,
+            fragmentShader: `
+                uniform sampler2D uCover;
+                uniform float uGroove, uClothRough, uFoilRough, uFoilMetal;
+                varying vec2 vUv;
+                void main() {
+                    // the cover is decoded to linear light when sampled; the formula works on its printed sRGB values
+                    vec3 l = texture2D(uCover, vUv).rgb;
+                    vec3 c = mix(l * 12.92, 1.055 * pow(l, vec3(1.0 / 2.4)) - 0.055, step(vec3(0.0031308), l));
+                    // foil is warm and bright, and far more yellow than the cream paper or the skin tones
+                    float gold = smoothstep(0.26, 0.36, c.g - c.b) * smoothstep(0.58, 0.78, c.r);
+                    float d = (vUv.x - uGroove) / 0.005;
+                    float groove = uGroove >= 0.0 ? 0.45 * exp(-d * d) : 0.0;
+                    gl_FragColor = vec4(max(0.0, 0.5 + 0.5 * gold - groove), mix(uClothRough, uFoilRough, gold), uFoilMetal * gold, 1.0);
+                }
+            `,
+            depthTest: false, depthWrite: false
+        });
+        const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+        quad.frustumCulled = false;
+        const pass = new THREE.Scene();
+        pass.add(quad);
+        const previous = renderer.getRenderTarget();
+        renderer.setRenderTarget(target);
+        renderer.render(pass, camera);
+        renderer.setRenderTarget(previous);
+        material.dispose();
+        quad.geometry.dispose();
+    });
+    return target.texture;
 }
 
 // A cased hardback, built the way one is bound: two boards with softened edges and
@@ -417,7 +469,7 @@ function buildBook(frontImage, backImage) {
     const FONT = `${CINZEL}, "Trajan Pro", Georgia, serif`;
     const GOLD = '#e9b758', MAROON = '#4f0b25';
     const H = 3.0;                                  // 3 units is the cover height (about 23 cm)
-    const W = H * (frontImage ? frontImage.naturalWidth / frontImage.naturalHeight : 0.6554);
+    const W = H * (frontImage ? (frontImage.naturalWidth || frontImage.width) / (frontImage.naturalHeight || frontImage.height) : 0.6554);
     const D = 0.22;                                 // overall thickness
     const T = 0.03;                                 // board thickness
     const ROUND = 0.05;                             // how far the rounded spine bulges out
@@ -428,15 +480,17 @@ function buildBook(frontImage, backImage) {
 
     const colorTexture = (source) => {
         const texture = source instanceof HTMLCanvasElement ? new THREE.CanvasTexture(source) : new THREE.Texture(source);
+        if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) texture.flipY = false;   // flipped by loadCover()
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.anisotropy = 16;
         texture.needsUpdate = true;
         return texture;
     };
     const printed = (source, grooveU = -1) => {
-        const foil = makeFoilMap(source, grooveU);
+        const map = colorTexture(source);
+        const foil = makeFoilMap(map, grooveU);
         return new THREE.MeshPhysicalMaterial({
-            map: colorTexture(source),
+            map,
             roughness: foil ? 1.0 : 0.6, metalness: foil ? 1.0 : 0.15,
             roughnessMap: foil, metalnessMap: foil,
             bumpMap: foil, bumpScale: 0.9,
@@ -587,8 +641,7 @@ function buildBook(frontImage, backImage) {
 function mountModel(object, animations) {
     gltfModel = object;
 
-    modelPivot = new THREE.Group();
-    scene.add(modelPivot);
+    modelPivot = new THREE.Group();   // added to the scene by showBook(), once it is ready to draw
     modelPivot.add(gltfModel);
 
     const materials = new Set();
@@ -653,7 +706,33 @@ function mountModel(object, animations) {
     // the book fades into presence
     fadeMaterials = [...materials];
     fadeMaterials.forEach((m) => { m.transparent = true; m.opacity = 0; });
+}
+
+// The book's first frame used to send every texture to the graphics chip and compile every shader
+// at once, holding the page up for about a second on a phone. Here each texture goes in its own
+// task, and the shaders compile in the background where the browser can; then the book fades in.
+const nextTask = () => new Promise((resolve) => setTimeout(resolve, 0));
+async function showBook() {
+    const textures = new Set();
+    modelPivot.traverse((child) => {
+        (Array.isArray(child.material) ? child.material : [child.material]).forEach((m) => {
+            if (m) Object.values(m).forEach((value) => { if (value && value.isTexture && !value.isRenderTargetTexture) textures.add(value); });
+        });
+    });
+    for (const texture of textures) { renderer.initTexture(texture); await nextTask(); }
+    for (const bake of foilBakes.splice(0)) { bake(); await nextTask(); }   // the foil maps, from the covers just sent
+    // Background compiling needs KHR_parallel_shader_compile: without it, three.js r160's compileAsync
+    // never finishes (and the book would never appear), so there the shaders compile in a task of their own.
+    try {
+        if (renderer.extensions.has('KHR_parallel_shader_compile')) await renderer.compileAsync(modelPivot, camera, scene);
+        else renderer.compile(modelPivot, camera, scene);
+    } catch (error) {
+        console.warn('Shaders will compile on first draw instead:', error.message);
+    }
+    await nextTask();
+    scene.add(modelPivot);
     fadeProgress = 0;
+    gfx.dirty = true;
 }
 
 async function loadModel() {
@@ -669,6 +748,7 @@ async function loadModel() {
                 }
             });
             mountModel(gltf.scene, gltf.animations);
+            await showBook();
             return;
         } catch (error) {
             console.error('Error loading book model, using the built-in book:', error);
@@ -677,11 +757,12 @@ async function loadModel() {
     const small = Math.min(screen.width, screen.height) * (window.devicePixelRatio || 1) < 1500
         || renderer.capabilities.maxTextureSize < 4096;
     const [frontImage, backImage] = await Promise.all([
-        loadImage(IMAGES + (small ? 'cover-front-m.webp' : 'cover-front.webp')),
-        loadImage(IMAGES + 'cover-back.webp'),
+        loadCover(IMAGES + (small ? 'cover-front-m.webp' : 'cover-front.webp')),
+        loadCover(IMAGES + 'cover-back.webp'),
         Promise.race([document.fonts.load(`600 62px ${CINZEL}`), new Promise((r) => setTimeout(r, 2500))]).catch(() => {})
     ]);
     mountModel(buildBook(frontImage, backImage));
+    await showBook();
 }
 
 // ============================================================================
@@ -1150,7 +1231,20 @@ function setupNavigation() {
 // ============================================================================
 // Bootstrap
 // ============================================================================
+// The titles, slides and navigation need nothing from three.js, so they start at once rather
+// than waiting for its download: the opening title is what Google times as the page's main paint.
+// animate() runs the slides on its own until the renderer exists.
 splitTitlesIntoChars();
+onWindowResize();
+animate();
+setupNavigation();
+
+try {
+    THREE = await import('/vendor/three/three.module.min.js');
+    if (MODEL_URL) ({ GLTFLoader } = await import('/vendor/three/loaders/GLTFLoader.js'));
+} catch (error) {
+    console.warn('Three.js could not be loaded; showing the page without the 3D stage.', error);
+}
 if (THREE) {
     try {
         initScene();
@@ -1161,5 +1255,3 @@ if (THREE) {
 }
 if (!renderer) document.body.classList.add('no-gl');
 onWindowResize();
-animate();
-setupNavigation();
