@@ -44,10 +44,15 @@ export async function POST(request: Request) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
   if (tooMany(ip)) return json({ error: 'You have sent several messages already. Please wait a few minutes.' }, 429);
 
+  // The subject and the reply wish ride at the top of the message, so the sheet script needs no change.
+  const topic = text('topic').slice(0, 80);
+  const heading = [topic && `Writing about: ${topic}`, data.reply === false && 'No reply needed.'].filter(Boolean);
+  const letter = heading.length ? `${heading.join('\n')}\n\n${message}` : message;
+
   try {
     const res = await fetch(SHEET_URL, {
       method: 'POST',
-      body: new URLSearchParams({ form: 'message', name, email, message, page: absoluteUrl('/contact') }),
+      body: new URLSearchParams({ form: 'message', name, email, message: letter, page: absoluteUrl('/contact') }),
       redirect: 'follow',
       signal: AbortSignal.timeout(15_000),
     });

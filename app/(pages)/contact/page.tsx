@@ -10,28 +10,35 @@ export const metadata = pageMetadata({
   path: '/contact',
 });
 
+// One sheet of paper on the desk: the title runs its full width, the particulars sit
+// small on the left, and the form takes the right.
 export default function Contact() {
   return (
     <>
       <Breadcrumbs trail={[{ name: 'Contact', path: '/contact' }]} />
 
-      <header className="pg-title">
-        <p className="pg-t">Correspondence</p>
-        <h1>Write to us</h1>
-        <p className="pg-tag">If it is wrong, correct it</p>
-        <p className="pg-lede">
-          A question about a reform, a correction, a better idea, or an invitation to discuss the book: every letter is read.
-        </p>
-      </header>
+      <section className="cf" aria-labelledby="cf-title">
+        <div className="cf-sheet">
+          <h1 id="cf-title" className="cf-title">Write to us</h1>
 
-      <section className="pg-sec" aria-label="The letter">
-        <div className="pg-doc">
-          <div className="pg-sheet pg-letter">
-            <ContactForm />
-            <p className="pg-note">
-              We keep your name, email and message only to read and answer it. See our{' '}
-              <a href="/privacy-policy">privacy policy</a>. You can also write to <Email />.
-            </p>
+          <div className="cf-body">
+            <aside className="cf-side">
+              <p>My Vision of India<br />Correspondence</p>
+              <p>
+                Questions, corrections,<br />better ideas, invitations<br />to discuss the book
+              </p>
+              <p>Every letter is read<br />Answers come by email</p>
+              <p>Or write directly<br /><Email /></p>
+              <p className="cf-script">If it is wrong, correct it</p>
+            </aside>
+
+            <div className="cf-main">
+              <ContactForm />
+              <p className="cf-note">
+                We keep your name, email and message only to read and answer it. See our{' '}
+                <a href="/privacy-policy">privacy policy</a>.
+              </p>
+            </div>
           </div>
         </div>
       </section>
