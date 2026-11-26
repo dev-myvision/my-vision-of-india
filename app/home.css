@@ -119,6 +119,20 @@ button.contact-btn { cursor: pointer; }
 .contact-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--night); }
 .contact-btn:hover .btn-circle { background: currentColor; }
 .nav-link:focus-visible, .contact-btn:focus-visible { outline: 1px solid var(--gold); outline-offset: 6px; }
+/* The header's words stay on one line; on mid-size screens the spacing tightens to make room. */
+.brand, .nav-link, .contact-btn { white-space: nowrap; }
+@media (max-width: 1180px) and (min-width: 821px) {
+    .site-header { padding: 0 32px; }
+    .brand { font-size: 12px; letter-spacing: 3px; }
+    .header-nav { gap: 16px; }
+    .nav-link, .contact-btn { letter-spacing: 1.8px; }
+    .contact-btn { padding: 11px 16px; }
+}
+@media (max-width: 980px) and (min-width: 821px) {
+    .nav-dot { display: none; }
+    .header-nav { gap: 18px; }
+    .brand { letter-spacing: 2px; }
+}
 
 /* ---------- Slides ---------- */
 .slide { position: absolute; bottom: 12%; pointer-events: none; }

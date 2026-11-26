@@ -14,13 +14,13 @@ export default function HomeMarkup() {
           <nav className="header-nav" aria-label="Sections">
             <a href="#slide-1" className="nav-link" data-stop="0">Vision</a>
             <span className="nav-dot"></span>
-            <a href="#slide-2" className="nav-link" data-stop="1">Governing</a>
+            <a href="#author" className="nav-link" data-section="author">Author</a>
             <span className="nav-dot"></span>
-            <a href="#slide-3" className="nav-link" data-stop="2">Prosperity</a>
+            <a href="#books" className="nav-link" data-section="books">The Books</a>
             <span className="nav-dot"></span>
-            <a href="#slide-4" className="nav-link" data-stop="3">Caring</a>
+            <a href="#reforms" className="nav-link" data-section="reforms">Reforms</a>
             <span className="nav-dot"></span>
-            <a href="#books" className="nav-link" data-section="books">Books</a>
+            <a href="/contact" className="nav-link">Contact</a>
           </nav>
           <div className="header-actions">
             <button type="button" className="contact-btn" data-open-order>Get the book <span className="btn-circle"></span></button>

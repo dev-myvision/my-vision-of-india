@@ -1207,20 +1207,23 @@ function setupNavigation() {
 
     // show where the reader is, retire the "Scroll" hint once they have moved,
     // and give the header a backing once the chapters run beneath it
-    const books = document.getElementById('books');
+    // The sections named in the header; the one across the middle of the screen is marked as current.
+    const sections = navLinks.map((link) => link.dataset.section && document.getElementById(link.dataset.section)).filter(Boolean);
     let current = null;
     const onScroll = () => {
         const y = window.scrollY;
         let here;
         if (y < layout.chaptersTop - window.innerHeight * 0.5) here = String(nearestSlide(y));
         else {
-            const box = books.getBoundingClientRect();
-            here = box.top < window.innerHeight * 0.5 && box.bottom > window.innerHeight * 0.5 ? 'books' : '';
+            const mid = window.innerHeight * 0.5;
+            const on = sections.find((el) => { const box = el.getBoundingClientRect(); return box.top < mid && box.bottom > mid; });
+            here = on ? on.id : '';
         }
         if (here !== current) {
             current = here;
             const mark = (el, on) => (on ? el.setAttribute('aria-current', 'true') : el.removeAttribute('aria-current'));
-            navLinks.forEach((link) => mark(link, (link.dataset.stop ?? link.dataset.section) === here));
+            // "Vision" stands for the whole opening, so it stays marked across all four slides.
+            navLinks.forEach((link) => mark(link, link.dataset.stop !== undefined ? /^\d+$/.test(here) : link.dataset.section === here));
             dashes.forEach((dash, i) => mark(dash, String(i) === here));
         }
         const root = document.documentElement;
