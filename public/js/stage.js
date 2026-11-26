@@ -1155,9 +1155,11 @@ function setupNavigation() {
         glideTo(stopY(restIndex));
     }
 
-    // at rest near a stop, ease onto it
-    let quiet = 0;
+    // at rest near a stop, ease onto it (but never after a link has taken the reader somewhere)
+    let quiet = 0, linkJump = false;
+    document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('a[href^="#"], a[href^="/#"], [data-section], [data-jump]')) linkJump = true; }, true);
     function easeOntoNearStop() {
+        if (linkJump) { linkJump = false; return; }
         if (dialogOpen() || reducedMotion.matches || performance.now() < glidingUntil) return;
         const y = window.scrollY;
         if (y > layout.chaptersTop + 2) return;
@@ -1169,7 +1171,8 @@ function setupNavigation() {
     }
     const whenStill = () => { clearTimeout(quiet); quiet = setTimeout(easeOntoNearStop, 380); };
     window.addEventListener('onscrollend' in window ? 'scrollend' : 'scroll', whenStill, { passive: true });
-    ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((type) => window.addEventListener(type, () => clearTimeout(quiet), { passive: true }));
+    ['wheel', 'touchstart', 'keydown'].forEach((type) => window.addEventListener(type, () => { clearTimeout(quiet); linkJump = false; }, { passive: true }));
+    window.addEventListener('pointerdown', () => clearTimeout(quiet), { passive: true });
 
     // over the stage, keys move exactly one stop; in the chapters they scroll as usual
     window.addEventListener('keydown', (e) => {
@@ -1197,7 +1200,9 @@ function setupNavigation() {
     document.querySelectorAll('[data-section]').forEach((link) => link.addEventListener('click', (e) => {
         e.preventDefault();
         restIndex = CHAPTERS;
-        glideTo(Math.round(document.getElementById(link.dataset.section).getBoundingClientRect().top + window.scrollY));
+        const target = document.getElementById(link.dataset.section);
+        const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+        glideTo(Math.round(target.getBoundingClientRect().top + window.scrollY - margin));
     }));
 
     // show where the reader is, retire the "Scroll" hint once they have moved,

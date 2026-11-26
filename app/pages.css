@@ -275,3 +275,21 @@ body:has(.pg) { margin: 0; background: #140c0e; }
 /* ---------- the book pages scroll smoothly to their links, and do not bounce past their ends ---------- */
 html:has(.pg-crumbs) { scroll-behavior: smooth; overscroll-behavior-y: none; }
 @media (prefers-reduced-motion: reduce) { html:has(.pg-crumbs) { scroll-behavior: auto; } }
+
+/* ---------- the footer, set larger so it reads comfortably ---------- */
+.pg-foot-word { font-size: 36px; }
+.pg-foot h2 { font-size: 21px; margin-bottom: 20px !important; }
+.pg-foot li { line-height: 2.1; }
+.pg-foot li a { font-size: 14px; letter-spacing: 0.07em; text-underline-offset: 4px; }
+.pg-foot-bar p { font-size: 18px; }
+.pg-foot-fine { max-width: 960px; font-size: 15px; line-height: 1.6; color: rgba(239, 229, 209, 0.6); }
+@media (max-width: 900px) {
+  .pg-foot-word { font-size: 26px; }
+  .pg-foot h2 { font-size: 19px; margin-bottom: 10px !important; }
+  .pg-foot li a { display: inline-block; padding: 8px 0; font-size: 13.5px; }
+  .pg-foot-bar p { font-size: 16px; }
+  .pg-foot-fine { font-size: 14px; }
+}
+.pg-foot li { line-height: 1.45; padding: 6px 0; }
+@media (max-width: 900px) { .pg-foot li { padding: 0; } }
+.pg-foot li a { display: inline-block; line-height: 1.5; }

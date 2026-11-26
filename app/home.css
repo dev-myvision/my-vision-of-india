@@ -3234,3 +3234,23 @@ html { overscroll-behavior-y: none; }
 /* once the chapters cover the screen, the fixed 3D layers behind them are put away */
 .stage-off #webgl, .stage-off .grid-lines, .stage-off .grid-horizontal-line,
 .stage-off .cinematic-container, .stage-off .scroll-cue { visibility: hidden; }
+
+/* ---------- the footer, set larger so it reads comfortably ---------- */
+.chapters.ba .v-foot .ft-word { font-size: 36px; }
+.chapters.ba .v-foot .ft-col h3 { font-size: 21px; margin-bottom: 20px; }
+.chapters.ba .v-foot .ft-col :is(a, button) { font-size: 14px; letter-spacing: 0.07em; text-underline-offset: 4px; }
+.chapters.ba .v-foot .ft-col li { line-height: 2.1; }
+.chapters.ba .v-foot .ft-bar p { font-size: 18px; }
+.chapters.ba .v-foot .ft-fine { max-width: 960px; font-size: 15px; line-height: 1.6; color: rgba(239, 229, 209, 0.6); }
+.chapters.ba .ft-up { width: 48px; height: 48px; }
+.ft-up b { font-size: 20px; }
+@media (max-width: 760px) {
+    .chapters.ba .v-foot .ft-word { font-size: 26px; }
+    .chapters.ba .v-foot .ft-col h3 { font-size: 19px; margin-bottom: 10px; }
+    .chapters.ba .v-foot .ft-col :is(a, button) { font-size: 13.5px; padding: 10px 0; }
+    .chapters.ba .v-foot .ft-bar p { font-size: 16px; }
+    .chapters.ba .v-foot .ft-fine { font-size: 14px; }
+}
+.chapters.ba .v-foot .ft-col li { line-height: 1.45; padding: 6px 0; }
+@media (max-width: 760px) { .chapters.ba .v-foot .ft-col li { padding: 0; } }
+.chapters.ba .v-foot .ft-col :is(a, button) { display: inline-block; line-height: 1.5; }

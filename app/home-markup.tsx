@@ -221,7 +221,6 @@ export default function HomeMarkup() {
               <button type="button" className="ba-arrow" data-dir="1">Next</button>
             </div>
             <p className="ba-small">Figures as stated in the book, October 2026. Proposals are the author’s suggestions, not existing law.</p>
-            <p className="sc-by" aria-hidden="true">by Joshua Paul Voola</p>
           </div>
         </section>
 
