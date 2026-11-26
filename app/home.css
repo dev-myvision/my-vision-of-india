@@ -2549,8 +2549,8 @@ html.dialog-open { overflow: hidden; }
 .ba.mo-ready .wd-t.is-in .ch { opacity: 1; transition: opacity 0.01s linear calc(var(--i) * 65ms); }
 
 /* script is written, left to right, as by a pen */
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
 
 /* the figures in the journal are circled by hand, each time a page is written */
 @keyframes ba-circle { from { --sweep: 0deg; } to { --sweep: 360deg; } }
@@ -3285,21 +3285,24 @@ html { overscroll-behavior-y: none; }
 .au-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--wd-photo); }
 .ba .au-clip { left: 50%; top: -46px; width: 86px; transform: rotate(-58deg); }
 
-/* the notes, low on the left: a script word for each book, a rule down the middle, the first line of why he wrote it,
-   a rule under each; then the book's closing line in small capitals */
-.au-notes { margin-top: auto; width: min(480px, 48cqw); }
-@media (max-width: 1000px) { .au-notes { width: 46cqw; } }
-.au-table { position: relative; list-style: none; margin: 0; padding: 0; }
-.au-table::before { content: ""; position: absolute; left: 150px; top: -28px; bottom: -32px; width: 1px; background: var(--au-ink); }
-.au-table a { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: center; min-height: 64px; border-bottom: 1px solid var(--au-ink); color: inherit; text-decoration: none; }
-.au-word { display: block; margin-bottom: -8px; padding-left: 2px; font-family: var(--ff-delafield), 'Snell Roundhand', cursive; font-size: 40px; line-height: 1; white-space: nowrap; }
-.au-line { padding: 10px 6px 10px 20px; text-align: center; font-family: var(--wd-serif); font-weight: 500; font-size: 18.5px; line-height: 1.3; }
-.au-table a:hover .au-line, .au-table a:focus-visible .au-line { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.au-table a:focus-visible { outline: 1px solid var(--au-ink); outline-offset: 3px; }
+/* the quote, low on the left: one line of his from the book, set large, with where it comes from beneath a short rule */
+.ba .au-quote { margin: auto 0 0; width: min(500px, 50cqw); }
+@media (max-width: 1000px) { .ba .au-quote { width: 47cqw; } }
+.au-quote blockquote { position: relative; margin: 0; padding: 0; }
+.au-quote blockquote::before {   /* the opening mark hangs in the margin */
+    content: "\201C"; position: absolute; left: -0.5em; top: -0.12em;
+    font-family: var(--wd-serif); font-size: clamp(40px, 4.2cqw, 50px); line-height: 1; color: var(--au-ink);
+}
+.au-quote p { margin: 0; font-family: var(--wd-serif); font-style: italic; font-weight: 500; font-size: clamp(30px, 3.4cqw, 40px); line-height: 1.22; color: var(--au-ink); text-wrap: pretty; }
+.au-quote p::after { content: "\201D"; }
+.au-quote figcaption {
+    margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--au-ink); width: max-content;
+    font-family: var(--au-sans); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.au-quote figcaption i { font-style: normal; }
 .au-head { max-width: 44cqw; }
 .au-head .au-h { max-width: none; }
 .au-of { margin-top: 8px !important; font-family: var(--wd-type); font-size: 14px; letter-spacing: 0.04em; color: #3a3233; }
-.au-p { margin-top: 46px !important; max-width: 480px; font-family: var(--au-sans); font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: 0.02em; text-transform: uppercase; }
 
 /* phones: the name stacked at the left, the print beside it, the notes under both */
 @media (max-width: 760px) {
@@ -3314,10 +3317,9 @@ html { overscroll-behavior-y: none; }
     .au-notes { clear: both; width: auto; padding-top: 34px; }
     .au-head { float: left; max-width: 40%; }
     .au-of { font-size: 12px; }
-    .au-table::before { left: 112px; top: -24px; bottom: -26px; }
-    .au-table a { grid-template-columns: 112px minmax(0, 1fr); min-height: 54px; }
-    .au-word { font-size: 31px; }
-    .au-line { padding-left: 12px; font-size: 16px; }
-    .au-p { margin-top: 40px !important; font-size: 11px; }
+    .ba .au-quote { width: auto; margin: 0; padding: 30px 0 0 14px; }
+    .au-quote p { font-size: 28px; }
+    .au-quote blockquote::before { font-size: 40px; }
+    .au-quote figcaption { margin-top: 22px; font-size: 11px; }
 }
 

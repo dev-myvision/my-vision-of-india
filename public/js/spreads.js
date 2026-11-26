@@ -479,7 +479,7 @@ else {
   const objects = [".ar-folder", ".sc-sec .ba-book", ".nb-board", ".nv-stack", ".lc-wrap", ".rf-folder"];
   objects.forEach((s) => document.querySelectorAll(s).forEach((el) => el.classList.add("mo-obj")));
   const watched = [...objects, ".wd-row", ".wd-t", ".wd-script", ".nb-script", ".ar-sig", ".lc-script", ".sc-by",
-    ".au-photo", ".au-word", ".ar-photo", ".sc-pola", ".lc-tag", ".nv-photo", ".rf-pola", ".bk-flat"].join(",");
+    ".au-photo", ".ar-photo", ".sc-pola", ".lc-tag", ".nv-photo", ".rf-pola", ".bk-flat"].join(",");
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
     if (!e.isIntersecting) return;
     e.target.classList.add("is-in");
@@ -572,7 +572,7 @@ else {
   // a script line starts clipped to nothing, which the browser can report as never on screen:
   // watch the line's container, and write the line in when the container arrives
   if ("IntersectionObserver" in window) {
-    const lines = [...document.querySelectorAll(".ba :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by)")];
+    const lines = [...document.querySelectorAll(".ba :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by)")];
     const io = new IntersectionObserver((es) => es.forEach((e) => {
       if (!e.isIntersecting) return;
       lines.forEach((l) => { if (l.parentElement === e.target) l.classList.add("is-in"); });

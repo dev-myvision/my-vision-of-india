@@ -106,8 +106,8 @@ export default function HomeMarkup() {
         </nav>
 
         {/* The author: a paper folder on the desk with its tab at the top left, his portrait printed with a white
-            border and clipped to it (the user's folder reference). On it, why he wrote each of the three books, in the
-            opening line of each book's own "Why I wrote" letter, and the book's closing line. */}
+            border and clipped to it (the user's folder reference). On it, one line of his from the book, word for word:
+            Book One, Reform 1, Knowledge First, "My vision". */}
         <section className="au-sec wd-sec" id="author" aria-labelledby="au-h">
           <p className="wd-t" aria-hidden="true">The author</p>
           <div className="au-folder">
@@ -123,14 +123,10 @@ export default function HomeMarkup() {
                 </figure>
                 <img className="pclip au-clip" src="/images/paper-clip.webp" width="332" height="406" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </div>
-              <div className="au-notes">
-                <ul className="au-table">
-                  <li><a href="/governing-india#why"><span className="au-word">Book One</span><span className="au-line">“I ask one question about our government…”</span></a></li>
-                  <li><a href="/building-prosperity#why"><span className="au-word">Book Two</span><span className="au-line">“I want India to earn more and waste less.”</span></a></li>
-                  <li><a href="/a-safe-and-caring-nation#why"><span className="au-word">Book Three</span><span className="au-line">“Most of us meet our government in a few ordinary places.”</span></a></li>
-                </ul>
-                <p className="au-p">None of it needs a miracle. It needs a clear standard, a named owner, an honest public record and a citizen who knows what to ask for.</p>
-              </div>
+              <figure className="au-notes au-quote">
+                <blockquote><p>Blame without knowledge changes nothing; knowledge of responsibility changes everything.</p></blockquote>
+                <figcaption>Book One, <i>Knowledge First</i></figcaption>
+              </figure>
             </div>
           </div>
         </section>
