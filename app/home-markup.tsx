@@ -1,6 +1,7 @@
 // The home page markup, ported from my-vision-of-india-v3.html.
 // The scripts in public/js/ drive it after hydration, so keep class names and ids in step with them.
 
+import type { CSSProperties } from 'react';
 import ReformShelf from './components/reform-shelf';
 
 export default function HomeMarkup() {
@@ -105,8 +106,8 @@ export default function HomeMarkup() {
         </nav>
 
         {/* The author: a paper folder on the desk with its tab at the top left, his portrait printed with a white
-            border and clipped to it, three lines in his words in a ruled table, and why he wrote it (the user's folder
-            reference). Every line is his own, from the book's "Why I wrote Book One/Two/Three" passages. */}
+            border and clipped to it (the user's folder reference). On it, the one question he asks of our government,
+            in his hand, answered by the book's three rules in red rubber stamps. Every word is from Book One. */}
         <section className="au-sec wd-sec" id="author" aria-labelledby="au-h">
           <p className="wd-t" aria-hidden="true">The author</p>
           <div className="au-folder">
@@ -120,12 +121,14 @@ export default function HomeMarkup() {
                 <img className="pclip au-clip" src="/images/paper-clip.webp" width="332" height="406" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </div>
               <div className="au-notes">
-                <ul className="au-table">
-                  <li><a href="/governing-india#why"><span className="au-word">Governing</span><span className="au-line">We know who is in charge.</span></a></li>
-                  <li><a href="/building-prosperity#why"><span className="au-word">Prosperity</span><span className="au-line">Earn more and waste less.</span></a></li>
-                  <li><a href="/a-safe-and-caring-nation#why"><span className="au-word">Caring</span><span className="au-line">The State must come to the citizen.</span></a></li>
+                <p className="au-lead">I ask one question about our government:</p>
+                <blockquote className="au-q"><p>when power is given to someone in our name, can we see what they do with it, and can we make them answer for it?</p></blockquote>
+                <ul className="au-stamps" aria-label="The three rules of the book">
+                  <li className="au-stamp" style={{ '--r': '-4deg', '--x': '0px' } as CSSProperties}>Responsibility can be identified</li>
+                  <li className="au-stamp" style={{ '--r': '2.5deg', '--x': '46px' } as CSSProperties}>Decisions are written down</li>
+                  <li className="au-stamp" style={{ '--r': '-1.5deg', '--x': '14px' } as CSSProperties}>Results are measured</li>
                 </ul>
-                <p className="au-p">Like millions of Indians, I have stood at a counter waiting for a certificate that should have come in a week. Most of these failures do not happen because Indians are bad people. They happen because our systems let responsibility disappear.</p>
+                <p className="au-p">In every office, from the panchayat to Parliament, three things must be true.</p>
               </div>
             </div>
           </div>
@@ -404,7 +407,7 @@ export default function HomeMarkup() {
             </div>
 
             <form className="order-form" noValidate>
-              <fieldset className="o-group" style={{ '--i': '0' } as React.CSSProperties}>
+              <fieldset className="o-group" style={{ '--i': '0' } as CSSProperties}>
                 <legend className="o-legend">Your details</legend>
                 <div className="fields">
                   <div className="field wide">

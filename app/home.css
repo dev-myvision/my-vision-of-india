@@ -2549,8 +2549,8 @@ html.dialog-open { overflow: hidden; }
 .ba.mo-ready .wd-t.is-in .ch { opacity: 1; transition: opacity 0.01s linear calc(var(--i) * 65ms); }
 
 /* script is written, left to right, as by a pen */
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
 
 /* the figures in the journal are circled by hand, each time a page is written */
 @keyframes ba-circle { from { --sweep: 0deg; } to { --sweep: 360deg; } }
@@ -3285,23 +3285,29 @@ html { overscroll-behavior-y: none; }
 .au-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--wd-photo); }
 .ba .au-clip { left: 50%; top: -46px; width: 86px; transform: rotate(-58deg); }
 
-/* the notes, low on the left: script word, a rule down the middle, a serif line, a rule under each */
-.au-notes { margin-top: auto; width: min(440px, 48cqw); }
-@media (max-width: 1000px) {
-    .au-body { padding-left: 44px; }
-    .au-pin { right: 4cqw; width: 37cqw; }
-    .au-notes { width: 45cqw; }
-    .au-line { font-size: 17px; }
-    .au-word { font-size: 36px; }
+/* the notes, low on the left: his question typed in and written out by hand, then the book's three rules stamped
+   beneath it in red ink, each at its own angle, then the line they come from in small capitals */
+.au-notes { margin-top: auto; width: min(470px, 48cqw); }
+@media (max-width: 1000px) { .au-notes { width: 45cqw; } }
+.au-lead { font-family: var(--wd-type); font-size: 14px; letter-spacing: 0.06em; color: #3a3233; }
+.au-q { margin: 10px 0 0; padding: 0; }
+.au-q p { margin: 0; font-family: var(--wd-script); font-size: clamp(30px, 3.3cqw, 38px); line-height: 1.22; color: var(--au-ink); }
+.au-stamps { display: grid; justify-items: start; gap: 14px; margin: 50px 0 0; padding: 0; list-style: none; }
+.au-stamp {
+    position: relative; translate: var(--x, 0px) 0; rotate: var(--r, 0deg);
+    padding: 8px 15px 7px; border: 3px solid currentColor; outline: 1px solid currentColor; outline-offset: -6px; border-radius: 3px;
+    font-family: var(--au-sans); font-size: 13.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.3;
+    color: rgba(158, 22, 40, 0.92); mix-blend-mode: multiply;
+    /* worn rubber: the ink takes unevenly */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
 }
-.au-table { position: relative; list-style: none; padding: 0; }
-.au-table::before { content: ""; position: absolute; left: 140px; top: -28px; bottom: -32px; width: 1px; background: var(--au-ink); }
-.au-table a { display: grid; grid-template-columns: 140px minmax(0, 1fr); align-items: center; min-height: 56px; border-bottom: 1px solid var(--au-ink); color: inherit; text-decoration: none; }
-.au-word { display: block; margin-bottom: -8px; padding-left: 2px; font-family: var(--ff-delafield), 'Snell Roundhand', cursive; font-size: 40px; line-height: 1; white-space: nowrap; }
-.au-line { padding: 0 6px 0 18px; text-align: center; font-family: var(--wd-serif); font-weight: 500; font-size: 19px; line-height: 1.3; }
-.au-table a:hover .au-line, .au-table a:focus-visible .au-line { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.au-table a:focus-visible { outline: 1px solid var(--au-ink); outline-offset: 3px; }
-.au-p { margin-top: 46px !important; max-width: 470px; font-family: var(--au-sans); font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: 0.02em; text-transform: uppercase; }
+/* each stamp comes down on the paper in turn as the folder arrives */
+.ba.mo-ready .au-stamp { transition: opacity 0.18s ease, scale 0.32s cubic-bezier(0.3, 1.5, 0.5, 1); }
+.ba.mo-ready .au-stamps:not(.is-in) .au-stamp { opacity: 0; scale: 1.45; }
+.ba.mo-ready .au-stamps.is-in .au-stamp:nth-child(2) { transition-delay: 0.45s; }
+.ba.mo-ready .au-stamps.is-in .au-stamp:nth-child(3) { transition-delay: 0.9s; }
+.au-p { margin-top: 30px !important; max-width: 470px; font-family: var(--au-sans); font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: 0.02em; text-transform: uppercase; }
 
 /* phones: the name stacked at the left, the print beside it, the notes under both */
 @media (max-width: 760px) {
@@ -3314,11 +3320,11 @@ html { overscroll-behavior-y: none; }
     .au-photo { padding: 8px; }
     .ba .au-clip { top: -30px; width: 52px; }
     .au-notes { clear: both; width: auto; padding-top: 34px; }
-    .au-table::before { left: 112px; top: -24px; bottom: -26px; }
-    .au-table a { grid-template-columns: 112px minmax(0, 1fr); min-height: 48px; }
-    .au-word { font-size: 33px; }
-    .au-line { padding-left: 12px; font-size: 16.5px; }
-    .au-p { margin-top: 40px !important; font-size: 11px; }
+    .au-lead { font-size: 13px; }
+    .au-q p { font-size: 28px; }
+    .au-stamps { gap: 12px; margin-top: 32px; }
+    .au-stamp { font-size: 11.5px; letter-spacing: 0.1em; padding: 6px 11px 5px; translate: calc(var(--x, 0px) * 0.5) 0; }
+    .au-p { margin-top: 26px !important; font-size: 11px; }
 }
 
 
