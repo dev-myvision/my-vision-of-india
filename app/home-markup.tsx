@@ -1,6 +1,8 @@
 // The home page markup, ported from my-vision-of-india-v3.html.
 // The scripts in public/js/ drive it after hydration, so keep class names and ids in step with them.
 
+import ReformShelf from './components/reform-shelf';
+
 export default function HomeMarkup() {
   return (
     <>
@@ -96,6 +98,7 @@ export default function HomeMarkup() {
             <li><a href="#words" data-jump><span className="visually-hidden">Corrected</span></a></li>
             <li><a href="#already" data-jump><span className="visually-hidden">Already begun</span></a></li>
             <li><a href="#same" data-jump><span className="visually-hidden">What stays the same</span></a></li>
+            <li><a href="#reforms" data-jump><span className="visually-hidden">The reforms</span></a></li>
             <li><a href="#make-it-yours" data-jump><span className="visually-hidden">The book</span></a></li>
           </ol>
         </nav>
@@ -274,6 +277,9 @@ export default function HomeMarkup() {
           </div>
         </section>
 
+        {/* The forty-one reforms: three shelves of cloth-bound volumes that turn round on hover */}
+        <ReformShelf />
+
         {/* The book: back cover, spine and front cover laid flat, then the order line */}
         <section className="bk-sec wd-sec" id="make-it-yours" aria-labelledby="bk-h">
           <p className="wd-t" aria-hidden="true">The book</p>
@@ -327,6 +333,7 @@ export default function HomeMarkup() {
                 <li><a href="#words" data-jump>Corrected</a></li>
                 <li><a href="#already" data-jump>Already begun</a></li>
                 <li><a href="#same" data-jump>What stays the same</a></li>
+                <li><a href="#reforms" data-jump>The reforms</a></li>
               </ul></nav>
               <nav className="ft-col" aria-labelledby="ft-books"><h3 id="ft-books">The books</h3><ul>
                 <li><a href="/governing-india">Governing India</a></li>

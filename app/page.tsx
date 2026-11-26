@@ -6,6 +6,7 @@ import { pageMetadata } from './seo';
 import { AUTHOR, BOOK_TITLE, SITE_URL, absoluteUrl } from './site';
 import StageScript from './stage-script';
 import './home.css';
+import './reform-shelf.css';
 
 export const metadata = pageMetadata({
   title: 'My Vision of India: The Short Edition by Joshua Paul Voola',
@@ -46,6 +47,7 @@ export default function Home() {
       <StageScript />
       <Script src="/js/chapters.js" strategy="afterInteractive" />
       <Script src="/js/spreads.js" strategy="afterInteractive" />
+      <Script src="/js/shelf.js" strategy="afterInteractive" />
     </>
   );
 }
