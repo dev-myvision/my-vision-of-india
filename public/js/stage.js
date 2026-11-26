@@ -45,12 +45,19 @@ const sizes = { width: window.innerWidth, height: window.innerHeight };
 // story: scroll distance from slide 1 to slide 4. chaptersTop: where the chapters fill the screen.
 const stageTrack = document.querySelector('.stage-track');
 const chaptersEl = document.querySelector('.chapters');
-const layout = { story: 1, chaptersTop: 1 };
+// groundTop: where the desk below the author's folder has fully covered the stage. The folder rises over the
+// opening itself, so the stage stays on screen behind it until then.
+const authorEl = document.getElementById('author');
+const layout = { story: 1, chaptersTop: 1, groundTop: 1 };
 function measure() {
     layout.story = Math.max(1, stageTrack.offsetHeight - window.innerHeight);
     layout.chaptersTop = chaptersEl.offsetTop;
+    const auEnd = authorEl ? authorEl.offsetTop + authorEl.offsetHeight : 0;   // offsetTop within the chapters
+    chaptersEl.style.setProperty('--au-end', auEnd + 'px');
+    layout.groundTop = layout.chaptersTop + auEnd + window.innerHeight * 0.15;
 }
 measure();
+if (authorEl && 'ResizeObserver' in window) new ResizeObserver(() => measure()).observe(authorEl);
 
 // Gold foil carries the statue's material: semi-matte, with a high satin metallic sheen.
 const FOIL_ROUGHNESS = 0.42;
@@ -1226,7 +1233,7 @@ function setupNavigation() {
         const root = document.documentElement;
         root.classList.toggle('has-scrolled', y > 24);
         root.classList.toggle('past-stage', y > layout.chaptersTop - 90);
-        root.classList.toggle('stage-off', y > layout.chaptersTop + 4);
+        root.classList.toggle('stage-off', y > layout.groundTop + 4);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);

@@ -476,7 +476,7 @@ else {
   document.querySelectorAll(".nv-list li").forEach((li, i) => li.style.setProperty("--i", i));
 
   // paper objects are laid on the table as they come into view
-  const objects = [".au-folder", ".ar-folder", ".sc-sec .ba-book", ".nb-board", ".nv-stack", ".lc-wrap", ".rf-folder"];
+  const objects = [".ar-folder", ".sc-sec .ba-book", ".nb-board", ".nv-stack", ".lc-wrap", ".rf-folder"];
   objects.forEach((s) => document.querySelectorAll(s).forEach((el) => el.classList.add("mo-obj")));
   const watched = [...objects, ".wd-row", ".wd-t", ".wd-script", ".nb-script", ".ar-sig", ".lc-script", ".sc-by",
     ".au-photo", ".au-word", ".ar-photo", ".sc-pola", ".lc-tag", ".nv-photo", ".rf-pola", ".bk-flat"].join(",");
@@ -580,6 +580,18 @@ else {
     }), { rootMargin: "0px 0px -12% 0px" });
     new Set(lines.map((l) => l.parentElement)).forEach((p) => io.observe(p));
   }
+
+  // the author's folder rises over the opening, fading in slowly as it comes up the screen,
+  // while the opening's words fade away behind it (its damask and the book stay)
+  const auFolder = document.querySelector(".au-folder"), heroWords = document.querySelector(".cinematic-container");
+  if (auFolder) scenes.push((vh) => {
+    const r = auFolder.getBoundingClientRect();
+    if (!near(r, vh)) { if (heroWords && r.top > vh) heroWords.style.opacity = ""; return; }
+    const q = ease(clamp((vh - r.top) / (vh * 0.8)));
+    auFolder.style.opacity = q.toFixed(3);
+    auFolder.style.translate = `0 ${((1 - q) * 80).toFixed(1)}px`;
+    if (heroWords) heroWords.style.opacity = q > 0 ? (1 - q).toFixed(3) : "";
+  });
 
   // the record: the author's note is slid across onto the photograph as the folder comes up the screen
   const folder = document.querySelector(".ar-folder"), letter = document.querySelector(".ar-letter"),
