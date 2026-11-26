@@ -53,15 +53,10 @@ function Volume({ shelf, part, reform }: { shelf: Shelf; part: ShelfPart; reform
           </div>
         </div>
         <div className="note" id={id}>
+          <p className="kick">Reform {reform.n} · {part.name}</p>
           <h4>{reform.title}</h4>
           <p className="sub">{reform.subtitle}</p>
           <p className="one">{reform.sentence}</p>
-          <dl>
-            <div><dt>Book</dt><dd>{shelf.ordinal} · {shelf.title}</dd></div>
-            <div><dt>Part</dt><dd>{part.name}</dd></div>
-            <div><dt>Reform</dt><dd>{reform.n} of {shelf.parts.reduce((n, p) => n + p.reforms.length, 0)}</dd></div>
-            <div><dt>Pages</dt><dd>{pages}</dd></div>
-          </dl>
           <div className="acts">
             <a
               className="get"
@@ -74,7 +69,7 @@ function Volume({ shelf, part, reform }: { shelf: Shelf; part: ShelfPart; reform
             </a>
             <a className="read" href={`${PDF}#page=${reform.firstPage}`} target="_blank" rel="noopener">Read pages {pages}</a>
           </div>
-          <p className="fsize">The full reform · PDF · {reform.pdf.pages} pages · {megabytes(reform.pdf.bytes)}</p>
+          <p className="fsize">PDF · {reform.pdf.pages} pages · {megabytes(reform.pdf.bytes)}</p>
         </div>
       </div>
     </article>
@@ -108,31 +103,36 @@ export default function ReformShelf() {
       <div className="rs">
         <header className="rs-head"><h2 id="rs-h">The Reforms</h2><span>41 reforms · 3 books · 13 parts</span></header>
         <p className="rs-lede">Forty-one reforms from three books, shelved under the parts the book itself uses.</p>
-        <p className="rs-help">Hover over a spine, or tap it, to turn the volume round. Each one is a chapter of the book, with its pages.</p>
+        <p className="rs-help">Hover over a spine, or tap it, to turn the volume round and download the reform.</p>
 
         {SHELVES.map((shelf) => {
           const hid = `rs-shelf-${shelf.ordinal.toLowerCase()}`;
           return (
             <section className="shelf" aria-labelledby={hid} key={shelf.ordinal}>
-              <div className="shelf-head">
-                <span>Book {shelf.ordinal}</span><span>{shelf.count} reforms</span>
-                <h3 id={hid}>{shelf.title}</h3>
-                <p>{shelf.tagline}</p>
-              </div>
-              <div className="row-wrap">
-                <div className="row">
-                  {shelf.parts.map((part) => (
-                    <div
-                      className="run"
-                      key={part.name}
-                      style={vars({ '--cloth': part.cloth, '--foil': part.foil, '--foil-hi': part.foilHi, '--foil-lo': part.foilLo, '--c2': part.c2, '--f2': part.f2 })}
-                    >
-                      <div className="vols">
-                        {part.reforms.map((reform) => <Volume shelf={shelf} part={part} reform={reform} key={reform.n} />)}
+              <div className="shelf-body">
+                <div className="row-wrap">
+                  <div className="row">
+                    {shelf.parts.map((part) => (
+                      <div
+                        className="run"
+                        key={part.name}
+                        style={vars({ '--cloth': part.cloth, '--foil': part.foil, '--foil-hi': part.foilHi, '--foil-lo': part.foilLo, '--c2': part.c2, '--f2': part.f2 })}
+                      >
+                        <div className="vols">
+                          {part.reforms.map((reform) => <Volume shelf={shelf} part={part} reform={reform} key={reform.n} />)}
+                        </div>
+                        <p className="run-label">{part.name}<span>{part.range}</span></p>
                       </div>
-                      <p className="run-label">{part.name}<span>{part.range}</span></p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+                {/* The shelf's label, standing at the end of the shelf; it gives way when a volume opens. */}
+                <div className="shelf-head">
+                  <div className="plate">
+                    <span>Book {shelf.ordinal} · {shelf.count} reforms</span>
+                    <h3 id={hid}>{shelf.title}</h3>
+                    <p>{shelf.tagline}</p>
+                  </div>
                 </div>
               </div>
               {/* On phones the entry for the open volume is shown here, under the shelf. */}

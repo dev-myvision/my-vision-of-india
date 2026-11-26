@@ -123,7 +123,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "bands",
         light: false,
-        height: 274
+        height: 307
       },
       {
         name: "Parliament, Elections and the Highest Offices",
@@ -171,7 +171,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "label",
         light: false,
-        height: 286
+        height: 320
       },
       {
         name: "Law, Justice and Honesty",
@@ -219,7 +219,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "bands",
         light: false,
-        height: 262
+        height: 293
       },
       {
         name: "Truth and Information",
@@ -256,7 +256,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "block",
         light: true,
-        height: 250
+        height: 280
       },
       {
         name: "An Administration That Delivers",
@@ -304,7 +304,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "plain",
         light: false,
-        height: 270
+        height: 302
       }
     ]
   },
@@ -360,7 +360,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "bands",
         light: false,
-        height: 280
+        height: 314
       },
       {
         name: "Business, Industry and Jobs",
@@ -430,7 +430,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "label",
         light: false,
-        height: 266
+        height: 298
       },
       {
         name: "Land and Farms",
@@ -467,7 +467,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "plain",
         light: false,
-        height: 254
+        height: 284
       },
       {
         name: "Tourism",
@@ -493,7 +493,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "block",
         light: true,
-        height: 286
+        height: 320
       }
     ]
   },
@@ -560,7 +560,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "bands",
         light: true,
-        height: 268
+        height: 300
       },
       {
         name: "Health and Care",
@@ -608,7 +608,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "plain",
         light: false,
-        height: 258
+        height: 289
       },
       {
         name: "Safety",
@@ -678,7 +678,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "label",
         light: false,
-        height: 282
+        height: 316
       },
       {
         name: "Clean and Liveable",
@@ -715,7 +715,7 @@ export const SHELVES: Shelf[] = [
         ],
         series: "bands",
         light: false,
-        height: 252
+        height: 282
       }
     ]
   }

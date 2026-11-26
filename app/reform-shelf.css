@@ -21,8 +21,8 @@
     --script: var(--ff-pinyon), 'Snell Roundhand', 'Apple Chancery', cursive;
     --expo: cubic-bezier(0.16, 1, 0.3, 1);
     --quart: cubic-bezier(0.25, 1, 0.5, 1);
-    --nw: 360px;          /* the catalogue entry beside an open cover */
-    --row-h: 508px;       /* room for the tallest entry, with its download button (494px, measured) */
+    --nw: 340px;          /* the catalogue entry beside an open cover */
+    --row-h: 356px;       /* the tallest entry (measured) with a little room; the tallest book is 320px */
     /* the site's velvet, darkened, with a vignette at the edges */
     background: radial-gradient(ellipse 120% 95% at 50% 40%, transparent 50%, rgba(10, 1, 5, 0.6) 100%),
         linear-gradient(rgba(16, 4, 8, 0.5), rgba(16, 4, 8, 0.5)),
@@ -33,21 +33,27 @@
 
 .rs-sec .rs { max-width: 1220px; margin: 0 auto; }
 
-/* The header, as in the reference: a rule, the name, a rule, then two lines of introduction. */
-.rs-sec .rs-head { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 20px 0 18px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+/* The header: a rule, the name, a rule, then one line of introduction. */
+.rs-sec .rs-head { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 18px 0 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .rs-sec .rs-head h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 1.1; letter-spacing: 0.01em; }
 .rs-sec .rs-head span { font-family: var(--type); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
-.rs-sec .rs-lede { margin: 28px 0 0; font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 1.4; max-width: 60ch; text-wrap: pretty; }
-.rs-sec .rs-help { margin: 12px 0 0; font-family: var(--type); font-size: 13px; line-height: 1.7; color: var(--soft); max-width: 70ch; }
+.rs-sec .rs-lede { margin: 22px 0 0; font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 1.4; max-width: 60ch; text-wrap: pretty; }
+.rs-sec .rs-help { margin: 8px 0 0; font-family: var(--type); font-size: 13px; line-height: 1.7; color: var(--soft); max-width: 70ch; }
 
-/* One shelf per book, under a two-ended header. */
-.rs-sec .shelf { margin-top: 96px; }
-.rs-sec .shelf-head { position: relative; text-align: center; padding-top: 4px; margin-bottom: 22px; }
-.rs-sec .shelf-head > span { position: absolute; top: 0; font-family: var(--type); font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--soft); }
-.rs-sec .shelf-head > span:first-child { left: 0; }
-.rs-sec .shelf-head > span:nth-child(2) { right: 0; letter-spacing: 0.3em; }
-.rs-sec .shelf-head h3 { margin: 0; padding-top: 26px; font-family: var(--script); font-weight: 400; font-size: 52px; line-height: 1.1; color: var(--script-ink); }
-.rs-sec .shelf-head p { margin: 4px 0 0; font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--soft); }
+/* One shelf per book: the volumes on the left, the shelf's label standing at the end of the shelf. */
+.rs-sec .shelf { margin-top: 64px; }
+.rs-sec .shelf:first-of-type { margin-top: 48px; }
+.rs-sec .shelf-body { display: flex; align-items: flex-start; }
+.rs-sec .shelf-body > .row-wrap { flex: 1 1 auto; min-width: 0; }
+
+/* The label: it stands beside a closed shelf and folds away as a volume opens, so the shelf can use the room. */
+.rs-sec .shelf-head { flex: none; width: 420px; margin-left: auto; height: var(--row-h); display: flex; align-items: center; overflow: hidden;
+  transition: width 0.5s var(--expo), opacity 0.3s ease 0.1s; }
+.rs-sec .shelf:has(.vol.is-open) .shelf-head { width: 0; opacity: 0; transition: width 0.5s var(--expo), opacity 0.14s ease; }
+.rs-sec .plate { flex: none; width: 420px; padding-left: 44px; border-left: 1px solid var(--rule); }
+.rs-sec .plate > span { display: block; font-family: var(--type); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--soft); }
+.rs-sec .plate h3 { margin: 0; padding-top: 14px; font-family: var(--script); font-weight: 400; font-size: 48px; line-height: 1.15; color: var(--script-ink); }
+.rs-sec .plate p { margin: 8px 0 0; font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.35; color: var(--soft); }
 
 .rs-sec .row-wrap { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; margin-inline: -12px; padding: 0 12px 4px; scroll-behavior: smooth; }
 .rs-sec .row-wrap::-webkit-scrollbar { display: none; }
@@ -57,15 +63,15 @@
 .rs-sec .vols { position: relative; display: flex; gap: 3px; align-items: flex-end; height: var(--row-h); }
 .rs-sec .vols::after { content: ""; position: absolute; left: -8px; right: -8px; bottom: -4px; height: 8px; z-index: -1;
   background: radial-gradient(ellipse 50% 100% at 50% 0, var(--floor), transparent 75%); }
-.rs-sec .run-label { margin: 18px 0 0; padding-top: 9px; border-top: 1px solid var(--rule); width: 0; min-width: 100%;
-  font-family: var(--type); font-size: 11px; line-height: 1.5; letter-spacing: 0.03em; text-transform: uppercase; color: var(--soft); overflow-wrap: normal; }
-.rs-sec .run-label span { display: block; margin-top: 4px; letter-spacing: 0.08em; text-transform: none; font-style: italic; opacity: 0.85; }
-.rs-sec .run:last-child .run-label { min-width: max(100%, 8rem); }
+.rs-sec .run-label { margin: 14px 0 0; padding-top: 8px; border-top: 1px solid var(--rule); width: 0; min-width: 100%;
+  font-family: var(--serif); font-style: italic; font-size: 14.5px; line-height: 1.2; color: var(--soft); overflow-wrap: normal; text-wrap: balance; }
+.rs-sec .run-label span { display: block; margin-top: 4px; font-family: var(--type); font-style: normal; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+.rs-sec .run:last-child .run-label { min-width: max(100%, 7rem); }
 
 /* ---- A volume: the spine, and behind it the cover and its entry ---- */
 .rs-sec .vol { --cw: calc(var(--h) * 0.7); --d: calc(var(--i) * 26ms);
   position: relative; flex: none; width: var(--sw); height: var(--h);
-  transition: width 0.8s var(--expo), opacity 0.7s ease var(--d), transform 1s var(--expo) var(--d); }
+  transition: width 0.5s var(--expo), opacity 0.45s ease var(--d), transform 0.6s var(--expo) var(--d); }
 .rs-sec .vol.is-open { width: calc(var(--cw) + 24px + var(--nw) + 4px); }
 
 /* Book cloth: a fine weave, a rounded spine, and clean gilt. */
@@ -90,7 +96,7 @@
     var(--fox), var(--age) 0 calc(var(--i) * -37px) / 300px 300px, var(--blk), var(--weave), var(--cloth);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.18), 0 16px 20px -14px rgba(0,0,0,0.6);
   transform-origin: left center;
-  transition: transform 0.75s var(--expo) 0.1s, opacity 0.4s ease 0.12s, box-shadow 0.5s var(--quart); }
+  transition: transform 0.45s var(--expo) 0.05s, opacity 0.24s ease 0.06s, box-shadow 0.3s var(--quart); }
 .rs-sec [data-light] .spine { box-shadow: inset 0 0 0 1px rgba(60,35,10,0.18), inset 0 0 6px rgba(110,75,30,0.08), 0 1px 0 rgba(0,0,0,0.12), 0 16px 20px -14px rgba(0,0,0,0.45); }
 
 /* Gilt (or, on pale cloth, ink) stamped into the cloth: a metal sheen, pressed in. */
@@ -128,12 +134,12 @@
 .rs-sec [data-s="label"] .st { flex: 0 1 auto; max-height: 74%; margin-block: auto; width: calc(100% - 8px); padding: 11px 0; font-size: 8.8px; line-height: 1.16; letter-spacing: 0.08em; border: 0.8px solid color-mix(in srgb, var(--foil) 80%, transparent); outline: 0.6px solid color-mix(in srgb, var(--foil) 55%, transparent); outline-offset: 2px; }
 
 /* Hover lifts a closed volume a little off the shelf. */
-.rs-sec .vol:not(.is-open) .spine:hover { transform: translateY(-8px); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.18), 0 26px 26px -16px rgba(0,0,0,0.6); transition: transform 0.4s var(--expo), box-shadow 0.4s var(--expo); }
+.rs-sec .vol:not(.is-open) .spine:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.18), 0 26px 26px -16px rgba(0,0,0,0.6); transition: transform 0.25s var(--expo), box-shadow 0.25s var(--expo); }
 .rs-sec .spine:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
 
 /* Opening: the spine swings away, the cover swings round to face out, then the entry. */
 .rs-sec .vol.is-open .spine { transform: perspective(900px) rotateY(86deg); opacity: 0; pointer-events: none;
-  transition: transform 0.55s var(--expo), opacity 0.28s ease; }
+  transition: transform 0.32s var(--expo), opacity 0.18s ease; }
 
 .rs-sec .leaf { position: absolute; inset: auto 0 0 0; height: 100%; pointer-events: none; }
 .rs-sec .cover { position: absolute; left: 0; bottom: 0; width: var(--cw); height: var(--h); padding: 12px 12px 12px 17px; border-radius: 2px 5px 5px 2px;
@@ -145,10 +151,10 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.26), inset 0 0 14px rgba(0,0,0,0.18), inset -1px 0 0 rgba(255,240,215,0.12),
     0 1px 0 rgba(0,0,0,0.25), 0 24px 28px -16px rgba(0,0,0,0.62);
   transform-origin: left center; transform: perspective(900px) rotateY(-80deg); opacity: 0;
-  transition: transform 0.45s var(--expo), opacity 0.22s ease; }
+  transition: transform 0.28s var(--expo), opacity 0.16s ease; }
 .rs-sec [data-light] .cover { box-shadow: inset 0 0 0 1px rgba(60,35,10,0.2), inset 0 0 12px rgba(110,75,30,0.1), 0 1px 0 rgba(0,0,0,0.12), 0 24px 28px -16px rgba(0,0,0,0.45); }
 .rs-sec .vol.is-open .cover { transform: perspective(900px) rotateY(0); opacity: 1; pointer-events: auto;
-  transition: transform 0.95s var(--expo) 0.14s, opacity 0.4s ease 0.14s; }
+  transition: transform 0.55s var(--expo) 0.06s, opacity 0.24s ease 0.06s; }
 .rs-sec .vol.is-open:has(.spine:focus-visible) .cover { outline: 1px solid var(--accent); outline-offset: 5px; }
 
 /* A gilt double rule with corner pieces, the series line, the number, a fleuron, the title, the imprint. */
@@ -171,25 +177,21 @@
 .rs-sec .cb i { display: block; margin-top: 2px; font-family: var(--serif); font-weight: 500; font-size: 11px; letter-spacing: 0.02em; text-transform: none; }
 .rs-sec [data-s="label"] .lbl { margin-inline: 2px; padding: 8px 6px 7px; border: 0.8px solid color-mix(in srgb, var(--foil) 80%, transparent); outline: 0.6px solid color-mix(in srgb, var(--foil) 55%, transparent); outline-offset: 2px; }
 
-/* The catalogue entry beside the cover. */
-/* A closed volume's entry is taken out of the layout (display: none), so it cannot widen the shelf;
+/* The catalogue entry beside the cover, standing on the shelf like the books.
+   A closed volume's entry is taken out of the layout (display: none), so it cannot widen the shelf;
    it fades in from that state when the volume opens. */
 .rs-sec .note { position: absolute; left: calc(var(--cw) + 24px); bottom: 0; width: var(--nw);
-  display: none; opacity: 0; transform: translateX(-14px);
-  transition: opacity 0.2s ease, transform 0.3s var(--expo), display 0.3s allow-discrete; }
+  display: none; opacity: 0; transform: translateX(-10px);
+  transition: opacity 0.14s ease, transform 0.2s var(--expo), display 0.2s allow-discrete; }
 .rs-sec .vol.is-open .note { display: block; opacity: 1; transform: none; pointer-events: auto;
-  transition: opacity 0.55s ease 0.34s, transform 0.9s var(--expo) 0.34s, display 0s; }
-@starting-style { .rs-sec .vol.is-open .note { opacity: 0; transform: translateX(-14px); } }
+  transition: opacity 0.3s ease 0.14s, transform 0.5s var(--expo) 0.14s, display 0s; }
+@starting-style { .rs-sec .vol.is-open .note { opacity: 0; transform: translateX(-10px); } }
+.rs-sec .note .kick, .rs-sec .detail .kick { margin: 0 0 8px; font-family: var(--type); font-size: 11px; line-height: 1.5; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
 .rs-sec .note h4, .rs-sec .detail h4 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 26px; line-height: 1.1; text-wrap: balance; }
-.rs-sec .note .sub, .rs-sec .detail .sub { margin: 6px 0 0; font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 1.3; color: var(--soft); }
-.rs-sec .note .one, .rs-sec .detail .one { margin: 14px 0 0; font-family: var(--serif); font-weight: 500; font-size: 17.5px; line-height: 1.42; color: var(--ink); opacity: 0.9; }
-.rs-sec .note dl, .rs-sec .detail dl { margin: 18px 0 0; }
-.rs-sec .note dl div, .rs-sec .detail dl div { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding: 7px 0 6px; border-top: 1px solid var(--rule); }
-.rs-sec .note dl div:last-child, .rs-sec .detail dl div:last-child { border-bottom: 1px solid var(--rule); }
-.rs-sec .note dt, .rs-sec .detail dt { font-family: var(--type); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); padding-top: 4px; }
-.rs-sec .note dd, .rs-sec .detail dd { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 17px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.rs-sec .note .sub, .rs-sec .detail .sub { margin: 5px 0 0; font-family: var(--serif); font-style: italic; font-size: 16.5px; line-height: 1.3; color: var(--soft); text-wrap: pretty; }
+.rs-sec .note .one, .rs-sec .detail .one { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--rule); font-family: var(--serif); font-weight: 500; font-size: 16.5px; line-height: 1.4; color: var(--ink); opacity: 0.9; text-wrap: pretty; }
 /* Download the reform's own PDF: the site's boxed, double-ruled button (as "Here" in the book section), in gold. */
-.rs-sec .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 20px; }
+.rs-sec .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 16px; }
 .rs-sec .get { display: inline-block; padding: 9px 20px 8px 24px; color: var(--gold); text-decoration: none;
   border: 1px solid var(--gold); outline: 1px solid color-mix(in srgb, var(--gold) 70%, transparent); outline-offset: 3px;
   font-family: var(--type); font-size: 12.5px; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase;
@@ -197,7 +199,7 @@
 .rs-sec .get:hover, .rs-sec .get:focus-visible { background: var(--gold); color: #140c0e; outline-offset: 4px; }
 .rs-sec .get:active { transform: translateY(1px); outline-offset: 1px; }
 .rs-sec .acts .read { margin-top: 0; }
-.rs-sec .fsize { margin: 12px 0 0; font-family: var(--type); font-size: 11px; letter-spacing: 0.04em; color: var(--soft); }
+.rs-sec .fsize { margin: 10px 0 0; font-family: var(--type); font-size: 11px; letter-spacing: 0.04em; color: var(--soft); }
 
 .rs-sec .read { display: inline-block; margin-top: 16px; font-family: var(--type); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-underline-offset 0.3s var(--expo); }
@@ -206,30 +208,33 @@
 
 .rs-sec .detail { display: none; }
 
-.rs-sec .rs-foot { margin-top: 88px; padding-top: 14px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px;
+.rs-sec .rs-foot { margin-top: 64px; padding-top: 14px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px;
   font-family: var(--type); font-size: 12px; line-height: 1.7; letter-spacing: 0.04em; color: var(--soft); }
 .rs-sec .rs-foot i { font-family: var(--serif); font-size: 16px; letter-spacing: 0; }
 
 /* The shelves arrive one volume after another as they come into view. */
-.rs-sec .shelf.await .vol { opacity: 0; transform: translateY(22px); }
+.rs-sec .shelf.await .vol { opacity: 0; transform: translateY(16px); }
 
 /* Narrower screens: the shelf slides sideways; on a phone the entry sits under the shelf. */
 @media (max-width: 1180px) {
+  .rs-sec .shelf-body { flex-direction: column; align-items: stretch; }
+  .rs-sec .shelf-head, .rs-sec .shelf:has(.vol.is-open) .shelf-head { order: -1; width: auto; height: auto; opacity: 1; margin: 0 0 22px; overflow: visible; }
+  .rs-sec .plate { width: auto; padding-left: 0; border-left: 0; }
   .rs-sec .row-wrap { -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
 }
 @media (max-width: 720px) {
-  .ba .wd-sec.rs-sec { --nw: 0px; --row-h: 300px; }
+  .ba .wd-sec.rs-sec { --nw: 0px; --row-h: 330px; }
   .rs-sec .rs-head h2 { font-size: 30px; }
   .rs-sec .rs-lede { font-size: 20px; }
   .rs-sec .rs-head span { display: none; }
-  .rs-sec .shelf { margin-top: 72px; }
-  .rs-sec .shelf-head > span { font-size: 11px; letter-spacing: 0.2em; }
-  .rs-sec .shelf-head h3 { font-size: 42px; }
+  .rs-sec .shelf { margin-top: 56px; }
+  .rs-sec .plate > span { letter-spacing: 0.2em; }
+  .rs-sec .plate h3 { font-size: 42px; padding-top: 8px; }
   .rs-sec .vol.is-open { width: calc(var(--cw) + 6px); }
   .rs-sec .vol .note, .rs-sec .vol.is-open .note { display: none; }
-  .rs-sec .detail { display: block; margin-top: 22px; transition: opacity 0.25s ease, transform 0.45s var(--expo); }
+  .rs-sec .detail { display: block; margin-top: 22px; transition: opacity 0.16s ease, transform 0.3s var(--expo); }
   .rs-sec .detail.swap { opacity: 0; transform: translateY(6px); }
-  .rs-sec .detail .one { font-size: 18px; }
+  .rs-sec .detail .one { font-size: 17.5px; }
   .rs-sec .get { padding: 14px 24px 13px 28px; }   /* a comfortable tap target */
 }
 

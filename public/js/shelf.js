@@ -15,7 +15,7 @@
       const html = v.querySelector('.note').innerHTML.replace(/ id="[^"]*"/g, '');
       if (reduce || !detail.innerHTML) { detail.innerHTML = html; return; }
       detail.classList.add('swap');
-      setTimeout(() => { detail.innerHTML = html; detail.classList.remove('swap'); }, 220);
+      setTimeout(() => { detail.innerHTML = html; detail.classList.remove('swap'); }, 140);
     };
 
     // Keep the opened volume inside the sliding shelf once it has finished opening.
@@ -57,12 +57,12 @@
       clearTimeout(timer);
       const v = ev.target.closest('.vol');
       if (!v || v === current) return;
-      timer = setTimeout(() => open(v), 40);
+      timer = setTimeout(() => open(v), 30);
     });
     wrap.addEventListener('pointerleave', (ev) => {
       if (!mouse(ev)) return;
       clearTimeout(timer);
-      timer = setTimeout(() => open(null), 160);
+      timer = setTimeout(() => open(null), 120);
     });
 
     vols.forEach((v, i) => {
@@ -90,7 +90,7 @@
         if (!en.isIntersecting) return;
         const s = en.target;
         const base = +s.querySelector('.vol').style.getPropertyValue('--i');
-        s.querySelectorAll('.vol').forEach((v) => v.style.setProperty('--d', ((+v.style.getPropertyValue('--i') - base) * 32) + 'ms'));
+        s.querySelectorAll('.vol').forEach((v) => v.style.setProperty('--d', ((+v.style.getPropertyValue('--i') - base) * 16) + 'ms'));
         requestAnimationFrame(() => s.classList.remove('await'));
         io.unobserve(s);
       });
