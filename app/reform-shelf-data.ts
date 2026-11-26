@@ -18,6 +18,8 @@ export type ShelfReform = {
   spineWidth: number;
   /** A slight shade so neighbouring volumes of one series are not identical. */
   tint: string;
+  /** The reform's own chapter as a PDF in public/reforms/, its pages and its size in bytes. */
+  pdf: { file: string; pages: number; bytes: number };
 };
 
 export type ShelfPart = {
@@ -71,7 +73,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 12,
             lastPage: 19,
             spineWidth: 35.6,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "governing-india-01-knowledge-first.pdf", pages: 58, bytes: 2747337 }
           },
           {
             n: 2,
@@ -81,7 +84,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 20,
             lastPage: 26,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "governing-india-02-my-vote-is-not-for-sale.pdf", pages: 40, bytes: 1930576 }
           },
           {
             n: 3,
@@ -91,7 +95,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 27,
             lastPage: 33,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "governing-india-03-the-nation-this-week.pdf", pages: 87, bytes: 3326566 }
           },
           {
             n: 4,
@@ -101,7 +106,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 34,
             lastPage: 42,
             spineWidth: 38.8,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "governing-india-04-from-protest-to-resolution.pdf", pages: 57, bytes: 2925166 }
           },
           {
             n: 5,
@@ -111,7 +117,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 43,
             lastPage: 49,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "governing-india-05-leaders-who-show-up.pdf", pages: 58, bytes: 2994257 }
           }
         ],
         series: "bands",
@@ -136,7 +143,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 50,
             lastPage: 56,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "governing-india-06-every-vote-accountable.pdf", pages: 76, bytes: 3354085 }
           },
           {
             n: 7,
@@ -146,7 +154,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 57,
             lastPage: 64,
             spineWidth: 35.6,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "governing-india-07-every-vote-protected.pdf", pages: 100, bytes: 4288807 }
           },
           {
             n: 8,
@@ -156,7 +165,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 65,
             lastPage: 71,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "governing-india-08-guardians-of-the-republic.pdf", pages: 63, bytes: 2859639 }
           }
         ],
         series: "label",
@@ -181,7 +191,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 72,
             lastPage: 78,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "governing-india-09-justice-on-time.pdf", pages: 66, bytes: 3169100 }
           },
           {
             n: 10,
@@ -191,7 +202,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 79,
             lastPage: 85,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "governing-india-10-the-constitutions-watch.pdf", pages: 65, bytes: 2778458 }
           },
           {
             n: 11,
@@ -201,7 +213,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 86,
             lastPage: 95,
             spineWidth: 42.0,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "governing-india-11-no-room-for-bribes.pdf", pages: 141, bytes: 5652945 }
           }
         ],
         series: "bands",
@@ -226,7 +239,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 96,
             lastPage: 102,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "governing-india-12-a-free-and-honest-press.pdf", pages: 70, bytes: 3204899 }
           },
           {
             n: 13,
@@ -236,7 +250,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 103,
             lastPage: 109,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "governing-india-13-screens-that-serve-us.pdf", pages: 56, bytes: 2529934 }
           }
         ],
         series: "block",
@@ -261,7 +276,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 110,
             lastPage: 116,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "governing-india-14-a-civil-service-that-works.pdf", pages: 55, bytes: 2693899 }
           },
           {
             n: 15,
@@ -271,7 +287,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 117,
             lastPage: 123,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "governing-india-15-a-national-right-to-services.pdf", pages: 47, bytes: 2517146 }
           },
           {
             n: 16,
@@ -281,7 +298,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 124,
             lastPage: 131,
             spineWidth: 35.6,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "governing-india-16-answerable-only-to-the-law.pdf", pages: 69, bytes: 2955832 }
           }
         ],
         series: "plain",
@@ -314,7 +332,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 136,
             lastPage: 145,
             spineWidth: 42.0,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "building-prosperity-01-borrow-only-to-build.pdf", pages: 117, bytes: 4805788 }
           },
           {
             n: 2,
@@ -324,7 +343,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 146,
             lastPage: 152,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "building-prosperity-02-every-rupee-tracked.pdf", pages: 52, bytes: 2589018 }
           },
           {
             n: 3,
@@ -334,7 +354,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 153,
             lastPage: 161,
             spineWidth: 38.8,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "building-prosperity-03-the-honest-taxpayer-charter.pdf", pages: 79, bytes: 3346403 }
           }
         ],
         series: "bands",
@@ -359,7 +380,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 162,
             lastPage: 168,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "building-prosperity-04-one-state-one-strength.pdf", pages: 92, bytes: 4312222 }
           },
           {
             n: 5,
@@ -369,7 +391,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 169,
             lastPage: 175,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "building-prosperity-05-paid-on-time-funded-to-grow.pdf", pages: 64, bytes: 2880671 }
           },
           {
             n: 6,
@@ -379,7 +402,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 176,
             lastPage: 182,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "building-prosperity-06-every-promise-on-record.pdf", pages: 54, bytes: 2675371 }
           },
           {
             n: 7,
@@ -389,7 +413,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 183,
             lastPage: 189,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "building-prosperity-07-skills-that-lead-to-jobs.pdf", pages: 48, bytes: 2477683 }
           },
           {
             n: 8,
@@ -399,7 +424,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 190,
             lastPage: 196,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "building-prosperity-08-jobs-for-everyone.pdf", pages: 75, bytes: 3303633 }
           }
         ],
         series: "label",
@@ -424,7 +450,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 197,
             lastPage: 203,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "building-prosperity-09-one-land-one-clear-title.pdf", pages: 48, bytes: 2705409 }
           },
           {
             n: 10,
@@ -434,7 +461,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 204,
             lastPage: 211,
             spineWidth: 35.6,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "building-prosperity-10-farmers-first.pdf", pages: 81, bytes: 4177173 }
           }
         ],
         series: "plain",
@@ -459,7 +487,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 212,
             lastPage: 218,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "building-prosperity-11-tourism-the-heartbeat-of-the-nation.pdf", pages: 72, bytes: 3424885 }
           }
         ],
         series: "block",
@@ -492,7 +521,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 223,
             lastPage: 229,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "a-safe-and-caring-nation-01-a-good-teacher-in-every-classroom.pdf", pages: 65, bytes: 3000027 }
           },
           {
             n: 2,
@@ -502,7 +532,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 230,
             lastPage: 238,
             spineWidth: 38.8,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "a-safe-and-caring-nation-02-schools-that-teach.pdf", pages: 75, bytes: 3462465 }
           },
           {
             n: 3,
@@ -512,7 +543,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 239,
             lastPage: 246,
             spineWidth: 35.6,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "a-safe-and-caring-nation-03-exams-that-cannot-leak.pdf", pages: 63, bytes: 2956938 }
           },
           {
             n: 4,
@@ -522,7 +554,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 247,
             lastPage: 253,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "a-safe-and-caring-nation-04-from-reservation-to-equal-opportunity.pdf", pages: 54, bytes: 2573161 }
           }
         ],
         series: "bands",
@@ -547,7 +580,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 254,
             lastPage: 260,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "a-safe-and-caring-nation-05-a-doctor-for-every-citizen.pdf", pages: 68, bytes: 3164070 }
           },
           {
             n: 6,
@@ -557,7 +591,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 261,
             lastPage: 267,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "a-safe-and-caring-nation-06-dignity-in-old-age.pdf", pages: 48, bytes: 2560073 }
           },
           {
             n: 7,
@@ -567,7 +602,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 268,
             lastPage: 274,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "a-safe-and-caring-nation-07-drug-free-youth.pdf", pages: 53, bytes: 2702482 }
           }
         ],
         series: "plain",
@@ -592,7 +628,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 275,
             lastPage: 282,
             spineWidth: 35.6,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "a-safe-and-caring-nation-08-safe-to-wait-safe-to-walk.pdf", pages: 54, bytes: 2461669 }
           },
           {
             n: 9,
@@ -602,7 +639,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 283,
             lastPage: 289,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "a-safe-and-caring-nation-09-every-journey-home.pdf", pages: 66, bytes: 3296315 }
           },
           {
             n: 10,
@@ -612,7 +650,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 290,
             lastPage: 296,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.04)"
+            tint: "rgba(0,0,0,.04)",
+            pdf: { file: "a-safe-and-caring-nation-10-no-road-work-without-a-safety-plan.pdf", pages: 66, bytes: 3205938 }
           },
           {
             n: 11,
@@ -622,7 +661,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 297,
             lastPage: 303,
             spineWidth: 32.4,
-            tint: "rgba(255,255,255,0)"
+            tint: "rgba(255,255,255,0)",
+            pdf: { file: "a-safe-and-caring-nation-11-ready-before-the-disaster.pdf", pages: 70, bytes: 3240943 }
           },
           {
             n: 12,
@@ -632,7 +672,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 304,
             lastPage: 311,
             spineWidth: 35.6,
-            tint: "rgba(255,255,255,.06)"
+            tint: "rgba(255,255,255,.06)",
+            pdf: { file: "a-safe-and-caring-nation-12-eyes-we-can-trust.pdf", pages: 74, bytes: 3347588 }
           }
         ],
         series: "label",
@@ -657,7 +698,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 312,
             lastPage: 318,
             spineWidth: 32.4,
-            tint: "rgba(0,0,0,.08)"
+            tint: "rgba(0,0,0,.08)",
+            pdf: { file: "a-safe-and-caring-nation-13-clean-streets-proud-cities.pdf", pages: 102, bytes: 4495700 }
           },
           {
             n: 14,
@@ -667,7 +709,8 @@ export const SHELVES: Shelf[] = [
             firstPage: 319,
             lastPage: 324,
             spineWidth: 29.2,
-            tint: "rgba(255,255,255,.1)"
+            tint: "rgba(255,255,255,.1)",
+            pdf: { file: "a-safe-and-caring-nation-14-water-for-every-home.pdf", pages: 77, bytes: 3514590 }
           }
         ],
         series: "bands",

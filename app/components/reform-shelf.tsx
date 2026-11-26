@@ -9,6 +9,9 @@ const PDF = '/My-Vision-of-India-The-Short-Edition.pdf';
 const MARK = { One: 'I', Two: 'II', Three: 'III' } as const;
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 
+/** A file size the way readers say it: 2.7 MB. */
+const megabytes = (bytes: number) => `${(bytes / 1e6).toFixed(1)} MB`;
+
 /** Custom properties for inline styles. */
 const vars = (v: Record<string, string | number>) => v as CSSProperties;
 
@@ -59,7 +62,19 @@ function Volume({ shelf, part, reform }: { shelf: Shelf; part: ShelfPart; reform
             <div><dt>Reform</dt><dd>{reform.n} of {shelf.parts.reduce((n, p) => n + p.reforms.length, 0)}</dd></div>
             <div><dt>Pages</dt><dd>{pages}</dd></div>
           </dl>
-          <a className="read" href={`${PDF}#page=${reform.firstPage}`} target="_blank" rel="noopener">Read pages {pages}</a>
+          <div className="acts">
+            <a
+              className="get"
+              href={`/reforms/${reform.pdf.file}`}
+              download={`My Vision of India - Reform ${reform.n} - ${reform.title}.pdf`}
+              type="application/pdf"
+              aria-label={`Download Reform ${reform.n}, ${reform.title} (PDF, ${reform.pdf.pages} pages, ${megabytes(reform.pdf.bytes)})`}
+            >
+              Download
+            </a>
+            <a className="read" href={`${PDF}#page=${reform.firstPage}`} target="_blank" rel="noopener">Read pages {pages}</a>
+          </div>
+          <p className="fsize">The full reform · PDF · {reform.pdf.pages} pages · {megabytes(reform.pdf.bytes)}</p>
         </div>
       </div>
     </article>

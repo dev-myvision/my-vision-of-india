@@ -22,7 +22,7 @@
     --expo: cubic-bezier(0.16, 1, 0.3, 1);
     --quart: cubic-bezier(0.25, 1, 0.5, 1);
     --nw: 360px;          /* the catalogue entry beside an open cover */
-    --row-h: 456px;       /* room above the tallest spine for the tallest entry (444px, measured) */
+    --row-h: 508px;       /* room for the tallest entry, with its download button (494px, measured) */
     /* the site's velvet, darkened, with a vignette at the edges */
     background: radial-gradient(ellipse 120% 95% at 50% 40%, transparent 50%, rgba(10, 1, 5, 0.6) 100%),
         linear-gradient(rgba(16, 4, 8, 0.5), rgba(16, 4, 8, 0.5)),
@@ -188,6 +188,17 @@
 .rs-sec .note dl div:last-child, .rs-sec .detail dl div:last-child { border-bottom: 1px solid var(--rule); }
 .rs-sec .note dt, .rs-sec .detail dt { font-family: var(--type); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); padding-top: 4px; }
 .rs-sec .note dd, .rs-sec .detail dd { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 17px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+/* Download the reform's own PDF: the site's boxed, double-ruled button (as "Here" in the book section), in gold. */
+.rs-sec .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 20px; }
+.rs-sec .get { display: inline-block; padding: 9px 20px 8px 24px; color: var(--gold); text-decoration: none;
+  border: 1px solid var(--gold); outline: 1px solid color-mix(in srgb, var(--gold) 70%, transparent); outline-offset: 3px;
+  font-family: var(--type); font-size: 12.5px; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase;
+  transition: background 0.25s, color 0.25s, outline-offset 0.15s, transform 0.15s; }
+.rs-sec .get:hover, .rs-sec .get:focus-visible { background: var(--gold); color: #140c0e; outline-offset: 4px; }
+.rs-sec .get:active { transform: translateY(1px); outline-offset: 1px; }
+.rs-sec .acts .read { margin-top: 0; }
+.rs-sec .fsize { margin: 12px 0 0; font-family: var(--type); font-size: 11px; letter-spacing: 0.04em; color: var(--soft); }
+
 .rs-sec .read { display: inline-block; margin-top: 16px; font-family: var(--type); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-underline-offset 0.3s var(--expo); }
 .rs-sec .read:hover { text-underline-offset: 6px; }
@@ -219,6 +230,7 @@
   .rs-sec .detail { display: block; margin-top: 22px; transition: opacity 0.25s ease, transform 0.45s var(--expo); }
   .rs-sec .detail.swap { opacity: 0; transform: translateY(6px); }
   .rs-sec .detail .one { font-size: 18px; }
+  .rs-sec .get { padding: 14px 24px 13px 28px; }   /* a comfortable tap target */
 }
 
 @media (prefers-reduced-motion: reduce) {
