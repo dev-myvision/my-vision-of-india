@@ -104,38 +104,30 @@ export default function HomeMarkup() {
           </ol>
         </nav>
 
-        {/* The author: the back flap of the dust jacket, a grainy portrait printed on it, and his letter laid beside it.
-            The letter is his own words, taken from "Why I wrote Book One/Two/Three" in the book. */}
+        {/* The author: a paper folder on the desk with its tab at the top left, his portrait printed with a white
+            border and clipped to it, three lines in his words in a ruled table, and why he wrote it (the user's folder
+            reference). Every line is his own, from the book's "Why I wrote Book One/Two/Three" passages. */}
         <section className="au-sec wd-sec" id="author" aria-labelledby="au-h">
           <p className="wd-t" aria-hidden="true">The author</p>
-          <div className="au-desk">
-            <div className="au-flap">
-              <figure className="au-photo">
-                <img src="/images/author.webp" srcSet="/images/author-376.webp 376w, /images/author.webp 752w" sizes="(max-width: 760px) 64vw, 284px" width="752" height="940" alt="Portrait of Joshua Paul Voola in a dark suit, smiling" loading="lazy" decoding="async" />
-              </figure>
-              <p className="au-name">Joshua Paul Voola</p>
-              <p className="au-role">a citizen of India</p>
-              <p className="au-books">Author of <i>My Vision of India</i>, in three books: Governing India, Building Prosperity, and A Safe and Caring Nation.</p>
+          <div className="au-folder">
+            <div className="au-tab" aria-hidden="true"></div>
+            <div className="au-body">
+              <h2 className="au-h" id="au-h">Joshua Paul Voola</h2>
+              <div className="au-pin">
+                <figure className="au-photo">
+                  <img src="/images/author.webp" srcSet="/images/author-376.webp 376w, /images/author.webp 752w" sizes="(max-width: 760px) 56vw, 400px" width="752" height="940" alt="Portrait of Joshua Paul Voola, a citizen of India, in a dark suit, smiling" loading="lazy" decoding="async" />
+                </figure>
+                <img className="pclip au-clip" src="/images/paper-clip.webp" width="332" height="406" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              </div>
+              <div className="au-notes">
+                <ul className="au-table">
+                  <li><a href="/governing-india#why"><span className="au-word">Governing</span><span className="au-line">We know who is in charge.</span></a></li>
+                  <li><a href="/building-prosperity#why"><span className="au-word">Prosperity</span><span className="au-line">Earn more and waste less.</span></a></li>
+                  <li><a href="/a-safe-and-caring-nation#why"><span className="au-word">Caring</span><span className="au-line">The State must come to the citizen.</span></a></li>
+                </ul>
+                <p className="au-p">Like millions of Indians, I have stood at a counter waiting for a certificate that should have come in a week. Most of these failures do not happen because Indians are bad people. They happen because our systems let responsibility disappear.</p>
+              </div>
             </div>
-            <article className="au-sheet">
-              <h2 className="au-h" id="au-h">Why I wrote it</h2>
-              <ol className="au-why">
-                <li>
-                  <p>Like millions of Indians, I have stood at a counter waiting for a certificate that should have come in a week. I have seen honest officers moved overnight and dishonest ones protected.</p>
-                  <a href="/governing-india#why">Book one: Governing India</a>
-                </li>
-                <li>
-                  <p>I saw farmers throw away harvests for want of a cold store, young people hold certificates but no job, and families unable to prove they own the land they have farmed for generations.</p>
-                  <a href="/building-prosperity#why">Book two: Building Prosperity</a>
-                </li>
-                <li>
-                  <p>Most citizens never meet a Minister. They meet the teacher who does or does not come, the hospital that is or is not open at night, the pension that does or does not arrive.</p>
-                  <a href="/a-safe-and-caring-nation#why">Book three: A Safe and Caring Nation</a>
-                </li>
-              </ol>
-              <p className="au-close">Most of these failures do not happen because Indians are bad people. They happen because our systems let responsibility disappear.</p>
-              <p className="au-sig">Joshua Paul Voola</p>
-            </article>
           </div>
         </section>
 

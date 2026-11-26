@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Cinzel, Cormorant_Garamond, Courier_Prime, EB_Garamond, Mrs_Saint_Delafield, Pinyon_Script } from 'next/font/google';
+import { Cinzel, Cormorant_Garamond, Courier_Prime, EB_Garamond, Montserrat, Mrs_Saint_Delafield, Pinyon_Script } from 'next/font/google';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from './site';
 import './globals.css';
 // The inner pages' styles. Every rule sits under .pg, so the home page is untouched; loading it here
@@ -19,7 +19,9 @@ const courier = Courier_Prime({
 const pinyon = Pinyon_Script({ subsets: ['latin'], weight: '400', variable: '--ff-pinyon', display: 'swap', preload: false });
 const delafield = Mrs_Saint_Delafield({ subsets: ['latin'], weight: '400', variable: '--ff-delafield', display: 'swap', preload: false });
 
-const fontVars = [cinzel, cormorant, ebGaramond, courier, pinyon, delafield].map((f) => f.variable).join(' ');
+// the plain capitals on the author's folder, as in the reference it follows
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'], variable: '--ff-montserrat', display: 'swap', preload: false });
+const fontVars = [cinzel, cormorant, ebGaramond, courier, pinyon, delafield, montserrat].map((f) => f.variable).join(' ');
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

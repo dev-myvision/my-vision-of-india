@@ -2549,8 +2549,8 @@ html.dialog-open { overflow: hidden; }
 .ba.mo-ready .wd-t.is-in .ch { opacity: 1; transition: opacity 0.01s linear calc(var(--i) * 65ms); }
 
 /* script is written, left to right, as by a pen */
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-sig, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-sig, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-word, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
 
 /* the figures in the journal are circled by hand, each time a page is written */
 @keyframes ba-circle { from { --sweep: 0deg; } to { --sweep: 360deg; } }
@@ -3258,74 +3258,66 @@ html { overscroll-behavior-y: none; }
 
 
 /* ============================================================================
-   The author: the back flap of the dust jacket laid on the desk, his portrait
-   printed on it, grainy as on an old paperback, and his letter tucked under its edge.
+   The author: a paper folder laid on the desk, its tab at the top left, his name
+   on it in plain capitals, his portrait printed with a white border and clipped
+   on at the top right, three lines in a ruled table with a signature script, and
+   why he wrote it in small capitals (after the user's folder reference).
    ============================================================================ */
-.ba .au-sec :where(p, h2, figure, ol) { margin: 0; }
-.au-desk { position: relative; display: grid; grid-template-columns: 340px minmax(0, 1fr); align-items: start; max-width: 960px; margin: 0 auto; }
+.ba .au-sec :where(p, h2, figure, ul) { margin: 0; }
+.au-folder {
+    --au-paper: #e9e6e0; --au-ink: #1d1a1a; --au-sans: var(--ff-montserrat), 'Helvetica Neue', Arial, sans-serif;
+    position: relative; max-width: 1000px; margin: 0 auto; padding-top: 58px; container-type: inline-size;
+    filter: drop-shadow(0 38px 36px rgba(0, 0, 0, 0.5)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+.au-tab {
+    position: absolute; left: 0; top: 0; width: 36%; height: 59px; background: var(--ba-fibre), var(--au-paper);
+    clip-path: polygon(0 16px, 16px 0, 81% 0, 100% 100%, 0 100%);
+}
+.au-body {
+    position: relative; display: flex; flex-direction: column; align-items: flex-start;
+    min-height: calc(56cqw + 120px); padding: 16px 60px 110px; box-sizing: border-box;
+    background: var(--ba-fibre), var(--au-paper); border-radius: 0 3px 3px 3px; color: var(--au-ink);
+}
+.au-h { max-width: 44cqw; font-family: var(--au-sans); font-weight: 400; font-size: min(30px, 3.2cqw); line-height: 1.2; letter-spacing: 0.05em; text-transform: uppercase; }
 
-/* the flap: wine jacket paper, the fold down its left edge, the top corner clipped where the price was */
-.au-flap {
-    position: relative; z-index: 2; isolation: isolate; margin-top: 34px; padding: 28px 28px 36px 42px;
-    color: var(--wd-cream); transform: rotate(-1.6deg);
-    filter: drop-shadow(0 26px 26px rgba(0, 0, 0, 0.55)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
-}
-.au-flap::before {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(to right, rgba(8, 0, 3, 0.5), rgba(8, 0, 3, 0.12) 16px, rgba(255, 228, 214, 0.07) 19px, transparent 26px), var(--ba-fibre), #4a0b22;
-    clip-path: polygon(0 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 0 100%);
-}
-.au-photo { position: relative; overflow: hidden; }
+/* the print: white border, tilted, its top corner standing just proud of the folder, a clip over its top edge */
+.au-pin { position: absolute; z-index: 2; right: 6cqw; top: 4px; width: 41cqw; transform: rotate(-9deg); }
+.au-photo { padding: 14px; background: #f8f6f1; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 16px 26px -10px rgba(0, 0, 0, 0.4); }
 .au-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--wd-photo); }
-.au-photo::after {   /* film grain and a soft falloff at the edges of the print */
-    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    box-shadow: inset 0 0 46px rgba(20, 5, 8, 0.6);
-}
-.au-name { margin-top: 26px !important; font-family: var(--wd-type); font-size: 13px; font-weight: 700; letter-spacing: 0.34em; text-transform: uppercase; }
-.au-role { margin-top: 4px !important; font-family: var(--wd-script); font-size: 34px; line-height: 1.15; color: #e2b25e; }
-.au-books {
-    margin-top: 18px !important; padding-top: 16px; border-top: 1px solid rgba(239, 229, 209, 0.25);
-    font-family: var(--wd-serif); font-style: italic; font-weight: 500; font-size: 17px; line-height: 1.45; color: rgba(239, 229, 209, 0.8);
-}
+.ba .au-clip { left: 50%; top: -46px; width: 86px; transform: rotate(-58deg); }
 
-/* the letter: cream stock, its left edge under the flap */
-.au-sheet {
-    position: relative; z-index: 1; margin-left: -40px; padding: 58px 60px 50px 94px; color: #1c1416;
-    background: var(--ba-fibre), #f6efe1; transform: rotate(0.7deg);
-    box-shadow: 0 34px 50px -26px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-.au-h { font-family: var(--wd-serif); font-weight: 400; font-size: 36px; line-height: 1.16; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
-.au-why { list-style: none; margin-top: 36px !important; padding: 0; counter-reset: au; }
-.au-why li { position: relative; padding-left: 44px; counter-increment: au; }
-.au-why li + li { margin-top: 26px; }
-.au-why li::before { content: counter(au, upper-roman) "."; position: absolute; left: 0; top: 5px; font-family: var(--wd-type); font-size: 14px; color: #7a2038; }
-.au-why p { font-family: var(--wd-serif); font-weight: 500; font-size: 20px; line-height: 1.42; }
-.au-why a {
-    display: inline-block; margin-top: 8px; padding-bottom: 2px; font-family: var(--wd-type); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: #7a2038; text-decoration: none; border-bottom: 1px solid rgba(122, 32, 56, 0.35); transition: border-color 0.25s;
-}
-.au-why a:hover, .au-why a:focus-visible { border-bottom-color: #7a2038; }
-.au-close { margin-top: 34px !important; padding-top: 24px; border-top: 1px solid rgba(28, 20, 22, 0.2); font-family: var(--wd-serif); font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.4; }
-.au-sig { margin-top: 16px !important; text-align: right; font-family: var(--wd-script); font-size: 40px; line-height: 1.1; }
-
+/* the notes, low on the left: script word, a rule down the middle, a serif line, a rule under each */
+.au-notes { margin-top: auto; width: min(440px, 48cqw); }
 @media (max-width: 1000px) {
-    .au-desk { grid-template-columns: 290px minmax(0, 1fr); }
-    .au-sheet { padding: 46px 36px 40px 78px; }
+    .au-body { padding-left: 44px; }
+    .au-pin { right: 4cqw; width: 37cqw; }
+    .au-notes { width: 45cqw; }
+    .au-line { font-size: 17px; }
+    .au-word { font-size: 36px; }
 }
-/* phones: the flap above, the letter coming out from under it */
+.au-table { position: relative; list-style: none; padding: 0; }
+.au-table::before { content: ""; position: absolute; left: 140px; top: -28px; bottom: -32px; width: 1px; background: var(--au-ink); }
+.au-table a { display: grid; grid-template-columns: 140px minmax(0, 1fr); align-items: center; min-height: 56px; border-bottom: 1px solid var(--au-ink); color: inherit; text-decoration: none; }
+.au-word { display: block; margin-bottom: -8px; padding-left: 2px; font-family: var(--ff-delafield), 'Snell Roundhand', cursive; font-size: 40px; line-height: 1; white-space: nowrap; }
+.au-line { padding: 0 6px 0 18px; text-align: center; font-family: var(--wd-serif); font-weight: 500; font-size: 19px; line-height: 1.3; }
+.au-table a:hover .au-line, .au-table a:focus-visible .au-line { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.au-table a:focus-visible { outline: 1px solid var(--au-ink); outline-offset: 3px; }
+.au-p { margin-top: 46px !important; max-width: 470px; font-family: var(--au-sans); font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: 0.02em; text-transform: uppercase; }
+
+/* phones: the name stacked at the left, the print beside it, the notes under both */
 @media (max-width: 760px) {
-    .au-desk { grid-template-columns: minmax(0, 1fr); }
-    .au-flap { width: min(300px, 80vw); margin: 0 auto; padding: 20px 20px 26px 30px; }
-    .au-role { font-size: 29px; }
-    .au-books { font-size: 16px; }
-    .au-sheet { margin: -24px 0 0; padding: 58px 22px 30px; transform: rotate(0.5deg); }
-    .au-h { font-size: 26px; }
-    .au-why { margin-top: 26px !important; }
-    .au-why li { padding-left: 32px; }
-    .au-why li::before { top: 3px; font-size: 13px; }
-    .au-why p { font-size: 18px; }
-    .au-why a { font-size: 11px; letter-spacing: 0.1em; }
-    .au-close { margin-top: 26px !important; padding-top: 18px; font-size: 19px; }
-    .au-sig { font-size: 32px; }
+    .au-folder { padding-top: 40px; }
+    .au-tab { width: 60%; height: 41px; clip-path: polygon(0 12px, 12px 0, 80% 0, 100% 100%, 0 100%); }
+    .au-body { display: flow-root; min-height: 0; padding: 14px 18px 46px; }
+    .au-h { float: left; max-width: 38%; font-size: 19px; line-height: 1.35; }
+    .au-body { padding-top: 14px; }
+    .au-pin { position: relative; float: right; right: auto; top: auto; width: 56%; margin: -26px -6px 26px 0; transform: rotate(-8deg); }
+    .au-photo { padding: 8px; }
+    .ba .au-clip { top: -30px; width: 52px; }
+    .au-notes { clear: both; width: auto; padding-top: 34px; }
+    .au-table::before { left: 112px; top: -24px; bottom: -26px; }
+    .au-table a { grid-template-columns: 112px minmax(0, 1fr); min-height: 48px; }
+    .au-word { font-size: 33px; }
+    .au-line { padding-left: 12px; font-size: 16.5px; }
+    .au-p { margin-top: 40px !important; font-size: 11px; }
 }
