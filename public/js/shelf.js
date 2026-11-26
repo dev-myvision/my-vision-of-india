@@ -65,9 +65,21 @@
       timer = setTimeout(() => open(null), 120);
     });
 
+    // On a phone the entry sits under the shelf, out of sight: a tap opens the book and then glides the
+    // page down so the entry stands just below the fixed header.
+    const toDetail = () => {
+      const head = document.querySelector('.site-header');
+      const gap = (head ? head.getBoundingClientRect().bottom : 0) + 18;
+      const top = detail.getBoundingClientRect().top + window.scrollY - gap;
+      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    };
+
     vols.forEach((v, i) => {
       const spine = v.querySelector('.spine');
-      spine.addEventListener('click', () => open(v));
+      spine.addEventListener('click', () => {
+        open(v);
+        if (phone.matches) toDetail();
+      });
       spine.addEventListener('keydown', (ev) => {
         if (ev.key === 'Escape') { open(null); return; }
         const step = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
