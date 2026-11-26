@@ -106,14 +106,17 @@ export default function HomeMarkup() {
         </nav>
 
         {/* The author: a paper folder on the desk with its tab at the top left, his portrait printed with a white
-            border and clipped to it (the user's folder reference). On it, the one question he asks of our government,
-            in his hand, answered by the book's three rules in red rubber stamps. Every word is from Book One. */}
+            border and clipped to it (the user's folder reference). On it, why he wrote each of the three books, in the
+            opening line of each book's own "Why I wrote" letter, and the book's closing line. */}
         <section className="au-sec wd-sec" id="author" aria-labelledby="au-h">
           <p className="wd-t" aria-hidden="true">The author</p>
           <div className="au-folder">
             <div className="au-tab" aria-hidden="true"></div>
             <div className="au-body">
-              <h2 className="au-h" id="au-h">Joshua Paul Voola</h2>
+              <div className="au-head">
+                <h2 className="au-h" id="au-h">Joshua Paul Voola</h2>
+                <p className="au-of">Author of <i>My Vision of India</i></p>
+              </div>
               <div className="au-pin">
                 <figure className="au-photo">
                   <img src="/images/author.webp" srcSet="/images/author-376.webp 376w, /images/author.webp 752w" sizes="(max-width: 760px) 56vw, 400px" width="752" height="940" alt="Portrait of Joshua Paul Voola, a citizen of India, in a dark suit, smiling" loading="lazy" decoding="async" />
@@ -121,14 +124,12 @@ export default function HomeMarkup() {
                 <img className="pclip au-clip" src="/images/paper-clip.webp" width="332" height="406" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </div>
               <div className="au-notes">
-                <p className="au-lead">I ask one question about our government:</p>
-                <blockquote className="au-q"><p>when power is given to someone in our name, can we see what they do with it, and can we make them answer for it?</p></blockquote>
-                <ul className="au-stamps" aria-label="The three rules of the book">
-                  <li className="au-stamp" style={{ '--r': '-4deg', '--x': '0px' } as CSSProperties}>Responsibility can be identified</li>
-                  <li className="au-stamp" style={{ '--r': '2.5deg', '--x': '46px' } as CSSProperties}>Decisions are written down</li>
-                  <li className="au-stamp" style={{ '--r': '-1.5deg', '--x': '14px' } as CSSProperties}>Results are measured</li>
+                <ul className="au-table">
+                  <li><a href="/governing-india#why"><span className="au-word">Book One</span><span className="au-line">“I ask one question about our government…”</span></a></li>
+                  <li><a href="/building-prosperity#why"><span className="au-word">Book Two</span><span className="au-line">“I want India to earn more and waste less.”</span></a></li>
+                  <li><a href="/a-safe-and-caring-nation#why"><span className="au-word">Book Three</span><span className="au-line">“Most of us meet our government in a few ordinary places.”</span></a></li>
                 </ul>
-                <p className="au-p">In every office, from the panchayat to Parliament, three things must be true.</p>
+                <p className="au-p">None of it needs a miracle. It needs a clear standard, a named owner, an honest public record and a citizen who knows what to ask for.</p>
               </div>
             </div>
           </div>
