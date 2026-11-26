@@ -3287,20 +3287,20 @@ html { overscroll-behavior-y: none; }
     clip-path: polygon(0 16px, 16px 0, 81% 0, 100% 100%, 0 100%);
 }
 .au-body {
-    position: relative; display: flex; flex-direction: column; align-items: flex-start;
-    min-height: calc(56cqw + 120px); padding: 16px 60px 110px; box-sizing: border-box;
+    position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    min-height: calc(50cqw + 40px); padding: 36px 60px 48px; box-sizing: border-box;
     background: var(--ba-fibre), var(--au-paper); border-radius: 0 3px 3px 3px; color: var(--au-ink);
 }
 .au-h { max-width: 44cqw; font-family: var(--au-sans); font-weight: 400; font-size: min(30px, 3.2cqw); line-height: 1.2; letter-spacing: 0.05em; text-transform: uppercase; }
 
 /* the print: white border, tilted, its top corner standing just proud of the folder, a clip over its top edge */
-.au-pin { position: absolute; z-index: 2; right: 6cqw; top: 4px; width: 41cqw; transform: rotate(-9deg); }
+.au-pin { position: absolute; z-index: 2; right: 6cqw; top: 4px; width: 38cqw; transform: rotate(-9deg); }
 .au-photo { padding: 14px; background: #f8f6f1; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 16px 26px -10px rgba(0, 0, 0, 0.4); }
 .au-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--wd-photo); }
 .ba .au-clip { left: 50%; top: -46px; width: 86px; transform: rotate(-58deg); }
 
-/* the quote, low on the left: one line of his from the book, set large, with where it comes from beneath a short rule */
-.ba .au-quote { margin: auto 0 0; width: min(500px, 50cqw); }
+/* the quote, just under his name: one line of his from the book, set large, with where it comes from beneath a short rule */
+.ba .au-quote { margin: 52px 0 0; width: min(500px, 50cqw); }
 @media (max-width: 1000px) { .ba .au-quote { width: 47cqw; } }
 .au-quote blockquote { position: relative; margin: 0; padding: 0; }
 .au-quote blockquote::before {   /* the opening mark hangs in the margin */
@@ -3331,7 +3331,7 @@ html { overscroll-behavior-y: none; }
     .au-notes { clear: both; width: auto; padding-top: 34px; }
     .au-head { float: left; max-width: 40%; }
     .au-of { font-size: 12px; }
-    .ba .au-quote { width: auto; margin: 0; padding: 30px 0 0 14px; }
+    .ba .au-quote { width: auto; margin: 0; padding: 6px 0 0 14px; }
     .au-quote p { font-size: 28px; }
     .au-quote blockquote::before { font-size: 40px; }
     .au-quote figcaption { margin-top: 22px; font-size: 11px; }

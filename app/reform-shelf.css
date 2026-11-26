@@ -130,8 +130,7 @@
   background: linear-gradient(to bottom, rgba(0,0,0,0.32), rgba(255,240,215,0.16) 45%, rgba(0,0,0,0.3)); opacity: 0.9; }
 .rs-sec [data-s="bands"] .spine::before { top: 31px; }
 .rs-sec [data-s="bands"] .spine::after { bottom: 31px; }
-/* Tooled panel: the title stamped straight onto the cloth inside a fine gilt double-ruled panel. */
-.rs-sec [data-s="label"] .st { flex: 0 1 auto; max-height: 74%; margin-block: auto; width: calc(100% - 8px); padding: 11px 0; font-size: 8.8px; line-height: 1.16; letter-spacing: 0.08em; border: 0.8px solid color-mix(in srgb, var(--foil) 80%, transparent); outline: 0.6px solid color-mix(in srgb, var(--foil) 55%, transparent); outline-offset: 2px; }
+/* Tooled series: the title stamped straight onto the cloth, centred down the spine like the rest (no panel). */
 
 /* Hover lifts a closed volume a little off the shelf. */
 .rs-sec .vol:not(.is-open) .spine:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.18), 0 26px 26px -16px rgba(0,0,0,0.6); transition: transform 0.25s var(--expo), box-shadow 0.25s var(--expo); }
