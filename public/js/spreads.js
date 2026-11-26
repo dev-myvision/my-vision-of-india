@@ -581,16 +581,14 @@ else {
     new Set(lines.map((l) => l.parentElement)).forEach((p) => io.observe(p));
   }
 
-  // the author's folder rises over the opening, fading in slowly as it comes up the screen,
-  // while the opening's words fade away behind it (its damask and the book stay)
-  const auFolder = document.querySelector(".au-folder"), heroWords = document.querySelector(".cinematic-container");
+  // the author's folder fades in slowly as it comes up the screen
+  const auFolder = document.querySelector(".au-folder");
   if (auFolder) scenes.push((vh) => {
     const r = auFolder.getBoundingClientRect();
-    if (!near(r, vh)) { if (heroWords && r.top > vh) heroWords.style.opacity = ""; return; }
+    if (!near(r, vh)) return;
     const q = ease(clamp((vh - r.top) / (vh * 0.8)));
     auFolder.style.opacity = q.toFixed(3);
     auFolder.style.translate = `0 ${((1 - q) * 80).toFixed(1)}px`;
-    if (heroWords) heroWords.style.opacity = q > 0 ? (1 - q).toFixed(3) : "";
   });
 
   // the record: the author's note is slid across onto the photograph as the folder comes up the screen
