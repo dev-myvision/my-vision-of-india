@@ -2541,16 +2541,16 @@ html.dialog-open { overflow: hidden; }
 .ba.mo-ready .mo-obj.is-in { opacity: 1; transform: none; }
 
 /* photographs develop, from a pale print to the image */
-.ba.mo-ready :is(.ar-photo, .sc-pola, .lc-tag, .nv-photo, .rf-pola) img { transition: filter 2.6s cubic-bezier(0.3, 0.1, 0.3, 1) 0.35s; }
-.ba.mo-ready :is(.ar-photo, .sc-pola, .lc-tag, .nv-photo, .rf-pola):not(.is-in) img { filter: grayscale(1) brightness(1.85) contrast(0.35) blur(1.2px); }
+.ba.mo-ready :is(.au-photo, .ar-photo, .sc-pola, .lc-tag, .nv-photo, .rf-pola) img { transition: filter 2.6s cubic-bezier(0.3, 0.1, 0.3, 1) 0.35s; }
+.ba.mo-ready :is(.au-photo, .ar-photo, .sc-pola, .lc-tag, .nv-photo, .rf-pola):not(.is-in) img { filter: grayscale(1) brightness(1.85) contrast(0.35) blur(1.2px); }
 
 /* section titles typed, one key at a time */
 .ba.mo-ready .wd-t .ch { opacity: 0; }
 .ba.mo-ready .wd-t.is-in .ch { opacity: 1; transition: opacity 0.01s linear calc(var(--i) * 65ms); }
 
 /* script is written, left to right, as by a pen */
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
-.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-sig, .lc-script, .sc-by) { clip-path: inset(-30% 100% -30% -6%); transition: clip-path 2s cubic-bezier(0.55, 0.1, 0.35, 1) 0.25s; }
+.ba.mo-ready :is(.wd-script, .nb-script, .ar-sig, .au-sig, .lc-script, .sc-by).is-in { clip-path: inset(-30% -10% -30% -6%); }
 
 /* the figures in the journal are circled by hand, each time a page is written */
 @keyframes ba-circle { from { --sweep: 0deg; } to { --sweep: 360deg; } }
@@ -2729,7 +2729,7 @@ html.dialog-open { overflow: hidden; }
    ============================================================================ */
 
 /* the stage's damask settles into the desk instead of cutting off */
-.ba .ar-sec { background: linear-gradient(to bottom, rgba(19, 2, 8, 0.92), rgba(19, 2, 8, 0) 340px); }
+.ba .au-sec { background: linear-gradient(to bottom, rgba(19, 2, 8, 0.92), rgba(19, 2, 8, 0) 340px); }
 
 /* a steadier rhythm: less dead air between pieces */
 .ba .wd-sec { padding-top: 64px; padding-bottom: 124px; }
@@ -2751,6 +2751,7 @@ html.dialog-open { overflow: hidden; }
 /* each object arrives the way that object would: slid across, set down, unfolded */
 .ba.mo-ready .mo-obj { transform: var(--mo-from, translateY(-26px) rotate(-0.8deg)); }
 .ba.mo-ready .mo-obj.is-in { transform: none; }
+.ba #author { --mo-from: translateY(-30px) rotate(-1deg); }
 .ba #record { --mo-from: translate(-48px, -12px) rotate(-2.2deg); }
 .ba #books { --mo-from: translateY(28px) scale(0.985); }
 .ba #clock { --mo-from: translateY(-36px) rotate(1.6deg); }
@@ -3254,3 +3255,77 @@ html { overscroll-behavior-y: none; }
 .chapters.ba .v-foot .ft-col li { line-height: 1.45; padding: 6px 0; }
 @media (max-width: 760px) { .chapters.ba .v-foot .ft-col li { padding: 0; } }
 .chapters.ba .v-foot .ft-col :is(a, button) { display: inline-block; line-height: 1.5; }
+
+
+/* ============================================================================
+   The author: the back flap of the dust jacket laid on the desk, his portrait
+   printed on it, grainy as on an old paperback, and his letter tucked under its edge.
+   ============================================================================ */
+.ba .au-sec :where(p, h2, figure, ol) { margin: 0; }
+.au-desk { position: relative; display: grid; grid-template-columns: 340px minmax(0, 1fr); align-items: start; max-width: 960px; margin: 0 auto; }
+
+/* the flap: wine jacket paper, the fold down its left edge, the top corner clipped where the price was */
+.au-flap {
+    position: relative; z-index: 2; isolation: isolate; margin-top: 34px; padding: 28px 28px 36px 42px;
+    color: var(--wd-cream); transform: rotate(-1.6deg);
+    filter: drop-shadow(0 26px 26px rgba(0, 0, 0, 0.55)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
+}
+.au-flap::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to right, rgba(8, 0, 3, 0.5), rgba(8, 0, 3, 0.12) 16px, rgba(255, 228, 214, 0.07) 19px, transparent 26px), var(--ba-fibre), #4a0b22;
+    clip-path: polygon(0 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 0 100%);
+}
+.au-photo { position: relative; overflow: hidden; }
+.au-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: var(--wd-photo); }
+.au-photo::after {   /* film grain and a soft falloff at the edges of the print */
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    box-shadow: inset 0 0 46px rgba(20, 5, 8, 0.6);
+}
+.au-name { margin-top: 26px !important; font-family: var(--wd-type); font-size: 13px; font-weight: 700; letter-spacing: 0.34em; text-transform: uppercase; }
+.au-role { margin-top: 4px !important; font-family: var(--wd-script); font-size: 34px; line-height: 1.15; color: #e2b25e; }
+.au-books {
+    margin-top: 18px !important; padding-top: 16px; border-top: 1px solid rgba(239, 229, 209, 0.25);
+    font-family: var(--wd-serif); font-style: italic; font-weight: 500; font-size: 17px; line-height: 1.45; color: rgba(239, 229, 209, 0.8);
+}
+
+/* the letter: cream stock, its left edge under the flap */
+.au-sheet {
+    position: relative; z-index: 1; margin-left: -40px; padding: 58px 60px 50px 94px; color: #1c1416;
+    background: var(--ba-fibre), #f6efe1; transform: rotate(0.7deg);
+    box-shadow: 0 34px 50px -26px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.au-h { font-family: var(--wd-serif); font-weight: 400; font-size: 36px; line-height: 1.16; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.au-why { list-style: none; margin-top: 36px !important; padding: 0; counter-reset: au; }
+.au-why li { position: relative; padding-left: 44px; counter-increment: au; }
+.au-why li + li { margin-top: 26px; }
+.au-why li::before { content: counter(au, upper-roman) "."; position: absolute; left: 0; top: 5px; font-family: var(--wd-type); font-size: 14px; color: #7a2038; }
+.au-why p { font-family: var(--wd-serif); font-weight: 500; font-size: 20px; line-height: 1.42; }
+.au-why a {
+    display: inline-block; margin-top: 8px; padding-bottom: 2px; font-family: var(--wd-type); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7a2038; text-decoration: none; border-bottom: 1px solid rgba(122, 32, 56, 0.35); transition: border-color 0.25s;
+}
+.au-why a:hover, .au-why a:focus-visible { border-bottom-color: #7a2038; }
+.au-close { margin-top: 34px !important; padding-top: 24px; border-top: 1px solid rgba(28, 20, 22, 0.2); font-family: var(--wd-serif); font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.4; }
+.au-sig { margin-top: 16px !important; text-align: right; font-family: var(--wd-script); font-size: 40px; line-height: 1.1; }
+
+@media (max-width: 1000px) {
+    .au-desk { grid-template-columns: 290px minmax(0, 1fr); }
+    .au-sheet { padding: 46px 36px 40px 78px; }
+}
+/* phones: the flap above, the letter coming out from under it */
+@media (max-width: 760px) {
+    .au-desk { grid-template-columns: minmax(0, 1fr); }
+    .au-flap { width: min(300px, 80vw); margin: 0 auto; padding: 20px 20px 26px 30px; }
+    .au-role { font-size: 29px; }
+    .au-books { font-size: 16px; }
+    .au-sheet { margin: -24px 0 0; padding: 58px 22px 30px; transform: rotate(0.5deg); }
+    .au-h { font-size: 26px; }
+    .au-why { margin-top: 26px !important; }
+    .au-why li { padding-left: 32px; }
+    .au-why li::before { top: 3px; font-size: 13px; }
+    .au-why p { font-size: 18px; }
+    .au-why a { font-size: 11px; letter-spacing: 0.1em; }
+    .au-close { margin-top: 26px !important; padding-top: 18px; font-size: 19px; }
+    .au-sig { font-size: 32px; }
+}

@@ -21,7 +21,7 @@ const bookJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Book',
   name: BOOK_TITLE,
-  author: { '@type': 'Person', name: AUTHOR },
+  author: { '@type': 'Person', name: AUTHOR, image: `${SITE_URL}/images/author.webp` },
   // Absolute addresses: SITE_URL is the Vercel production address (or SITE_URL once the domain is set).
   url: absoluteUrl('/'),
   image: `${SITE_URL}/images/cover-front-900.webp`,
