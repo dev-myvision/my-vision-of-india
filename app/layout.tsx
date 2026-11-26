@@ -23,7 +23,7 @@ const fontVars = [cinzel, cormorant, ebGaramond, courier, pinyon, delafield].map
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'My Vision of India: The Short Edition', template: `%s | ${SITE_NAME}` },
+  title: { default: 'My Vision of India', template: `%s | ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   // Google Search Console: paste the code from its "HTML tag" method into GOOGLE_SITE_VERIFICATION.

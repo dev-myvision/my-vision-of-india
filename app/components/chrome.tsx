@@ -72,7 +72,7 @@ export function SiteFooter() {
         </div>
         <div className="pg-foot-bar">
           <p>&copy; 2026 {SITE_NAME}. All rights reserved.</p>
-          <p>The Short Edition, first edition 2026. By {AUTHOR}.</p>
+          <p>First edition 2026. By {AUTHOR}.</p>
         </div>
         <p className="pg-foot-fine">
           Short passages may be quoted freely for discussion, teaching and public debate, with acknowledgement of the book.

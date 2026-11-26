@@ -30,7 +30,7 @@ export default function HomeMarkup() {
       <div className="cinematic-container">
 
         <div className="slide" id="slide-1">
-          <p className="slide-kicker">The Short Edition</p>
+          <p className="slide-kicker">Three books, one volume</p>
           <h1 className="slide-title">My Vision <br />of India</h1>
           <div className="desc-row">
             <p className="slide-desc col-1">By Joshua Paul Voola. Forty-one reforms from three books of more than two thousand pages, in one shorter volume you can read in a few evenings.</p>
@@ -68,7 +68,7 @@ export default function HomeMarkup() {
           <div className="grid-dot top"></div>
           <div className="grid-dot bottom"></div>
           <div className="story-dashes">
-            <button type="button" className="story-dash" data-label="The Short Edition" aria-label="Go to slide 1: My Vision of India"><span className="story-dash-fill" id="dash-fill-1"></span></button>
+            <button type="button" className="story-dash" data-label="My Vision of India" aria-label="Go to slide 1: My Vision of India"><span className="story-dash-fill" id="dash-fill-1"></span></button>
             <button type="button" className="story-dash" data-label="Book One" aria-label="Go to slide 2: Governing India"><span className="story-dash-fill" id="dash-fill-2"></span></button>
             <button type="button" className="story-dash" data-label="Book Two" aria-label="Go to slide 3: Building Prosperity"><span className="story-dash-fill" id="dash-fill-3"></span></button>
             <button type="button" className="story-dash" data-label="Book Three" aria-label="Go to slide 4: A Safe and Caring Nation"><span className="story-dash-fill" id="dash-fill-4"></span></button>
@@ -92,6 +92,7 @@ export default function HomeMarkup() {
         <nav className="ix" aria-label="Sections on this page">
           <p className="ix-now" aria-hidden="true"></p>
           <ol>
+            <li><a href="#author" data-jump><span className="visually-hidden">The author</span></a></li>
             <li><a href="#record" data-jump><span className="visually-hidden">The record</span></a></li>
             <li><a href="#books" data-jump><span className="visually-hidden">The journal</span></a></li>
             <li><a href="#clock" data-jump><span className="visually-hidden">The clock</span></a></li>
@@ -102,6 +103,41 @@ export default function HomeMarkup() {
             <li><a href="#make-it-yours" data-jump><span className="visually-hidden">The book</span></a></li>
           </ol>
         </nav>
+
+        {/* The author: the back flap of the dust jacket, a grainy portrait printed on it, and his letter laid beside it.
+            The letter is his own words, taken from "Why I wrote Book One/Two/Three" in the book. */}
+        <section className="au-sec wd-sec" id="author" aria-labelledby="au-h">
+          <p className="wd-t" aria-hidden="true">The author</p>
+          <div className="au-desk">
+            <div className="au-flap">
+              <figure className="au-photo">
+                <img src="/images/author.webp" srcSet="/images/author-376.webp 376w, /images/author.webp 752w" sizes="(max-width: 760px) 64vw, 284px" width="752" height="940" alt="Portrait of Joshua Paul Voola in a dark suit, smiling" loading="lazy" decoding="async" />
+              </figure>
+              <p className="au-name">Joshua Paul Voola</p>
+              <p className="au-role">a citizen of India</p>
+              <p className="au-books">Author of <i>My Vision of India</i>, in three books: Governing India, Building Prosperity, and A Safe and Caring Nation.</p>
+            </div>
+            <article className="au-sheet">
+              <h2 className="au-h" id="au-h">Why I wrote it</h2>
+              <ol className="au-why">
+                <li>
+                  <p>Like millions of Indians, I have stood at a counter waiting for a certificate that should have come in a week. I have seen honest officers moved overnight and dishonest ones protected.</p>
+                  <a href="/governing-india#why">Book one: Governing India</a>
+                </li>
+                <li>
+                  <p>I saw farmers throw away harvests for want of a cold store, young people hold certificates but no job, and families unable to prove they own the land they have farmed for generations.</p>
+                  <a href="/building-prosperity#why">Book two: Building Prosperity</a>
+                </li>
+                <li>
+                  <p>Most citizens never meet a Minister. They meet the teacher who does or does not come, the hospital that is or is not open at night, the pension that does or does not arrive.</p>
+                  <a href="/a-safe-and-caring-nation#why">Book three: A Safe and Caring Nation</a>
+                </li>
+              </ol>
+              <p className="au-close">Most of these failures do not happen because Indians are bad people. They happen because our systems let responsibility disappear.</p>
+              <p className="au-sig">Joshua Paul Voola</p>
+            </article>
+          </div>
+        </section>
 
         {/* The thesis: an archive folder (reference 1) */}
         <section className="ar-sec wd-sec" id="record" aria-labelledby="ba-thesis">
@@ -283,11 +319,11 @@ export default function HomeMarkup() {
         {/* The book: back cover, spine and front cover laid flat, then the order line */}
         <section className="bk-sec wd-sec" id="make-it-yours" aria-labelledby="bk-h">
           <p className="wd-t" aria-hidden="true">The book</p>
-          <h2 className="visually-hidden" id="bk-h">My Vision of India: The Short Edition</h2>
+          <h2 className="visually-hidden" id="bk-h">My Vision of India</h2>
           <div className="bk-flat">
             <img className="bk-back" src="/images/cover-back-900.webp" srcSet="/images/cover-back-480.webp 480w, /images/cover-back-900.webp 900w, /images/cover-back.webp 1400w" sizes="(max-width: 760px) 42vw, 432px" width="1400" height="2136" alt="Back cover: Would this make India work better for its people? In every office, from the panchayat to Parliament, three things must be true." loading="lazy" decoding="async" />
             <div className="bk-spine" aria-hidden="true"><span>My Vision of India</span><em>Joshua Paul Voola</em></div>
-            <img className="bk-front" src="/images/cover-front-900.webp" srcSet="/images/cover-front-480.webp 480w, /images/cover-front-900.webp 900w, /images/cover-front-m.webp 1400w" sizes="(max-width: 760px) 42vw, 432px" width="1400" height="2136" alt="Front cover of My Vision of India: The Short Edition by Joshua Paul Voola" loading="lazy" decoding="async" />
+            <img className="bk-front" src="/images/cover-front-900.webp" srcSet="/images/cover-front-480.webp 480w, /images/cover-front-900.webp 900w, /images/cover-front-m.webp 1400w" sizes="(max-width: 760px) 42vw, 432px" width="1400" height="2136" alt="Front cover of My Vision of India by Joshua Paul Voola" loading="lazy" decoding="async" />
           </div>
           <div className="bk-after">
             <div className="rf-folder">
@@ -298,7 +334,7 @@ export default function HomeMarkup() {
                 <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 12 6 18 2 14 8 20 10 14 12 18 18 12 14 10 20 8 14 2 18 6 12 0 10 6 8 2 2 8 6Z" fill="currentColor" /></svg><em>A Safe and Caring Nation</em></span>
               </div>
               <div className="rf-front">
-                <p className="rf-ed">Edition 01:<br />The Short Edition</p>
+                <p className="rf-ed">Edition 01:<br />My Vision of India</p>
                 <h2 className="rf-h" id="ba-close">three books,<br />one<br />volume</h2>
                 <figure className="rf-pola"><img className="pclip" src="/images/paper-clip.webp" width="332" height="406" alt="" aria-hidden="true" loading="lazy" decoding="async" /><img src="/images/book-open.webp" width="655" height="800" alt="The book lying open on a wooden table beside a glass of tea and reading glasses" loading="lazy" decoding="async" /><figcaption>My Vision of India</figcaption></figure>
                 <div className="rf-table">
@@ -311,7 +347,7 @@ export default function HomeMarkup() {
             </div>
 
             <div className="bk-order">
-              <p className="wd-type">The Short Edition. First edition, 2026.</p>
+              <p className="wd-type">My Vision of India. First edition, 2026.</p>
               <p className="wd-script wd-sm" aria-hidden="true">Your copy</p>
               <p className="wd-type">all three books, to your device</p>
               <button type="button" className="wd-here" data-open-order>Here</button>
@@ -349,7 +385,7 @@ export default function HomeMarkup() {
             </div>
             <div className="ft-bar">
               <p>&copy; 2026 My Vision of India. All rights reserved.</p>
-              <p className="ft-ed">The Short Edition, first edition 2026</p>
+              <p className="ft-ed">First edition 2026</p>
             </div>
             <p className="ft-fine">Short passages may be quoted freely for discussion, teaching and public debate, with acknowledgement of the book. The proposals in this book are suggestions, not existing law. Nothing in this book is legal advice. This book is non-partisan. It does not support or oppose any political party, leader or government. The photographs on this website are illustrations created with artificial-intelligence tools; the people shown in them are not real persons.</p>
           </div>
@@ -364,7 +400,7 @@ export default function HomeMarkup() {
           <aside className="order-art" aria-hidden="true">
             <div className="oa-cover"></div>
             <div className="oa-text">
-              <p className="oa-kicker">The Short Edition</p>
+              <p className="oa-kicker">Three books, one volume</p>
               <p className="oa-title">My Vision of India</p>
               <p className="oa-author">Joshua Paul Voola</p>
             </div>
@@ -373,7 +409,7 @@ export default function HomeMarkup() {
           <div className="order-body">
             <div className="order-head">
               <h2 className="stack order-title" id="order-title" data-lines="Download|the book" data-stagger="90" data-dur="800">Download the book</h2>
-              <p className="order-intro">Tell us who you are, and <em>My Vision of India: The Short Edition</em> downloads to your device straight away.</p>
+              <p className="order-intro">Tell us who you are, and <em>My Vision of India</em> downloads to your device straight away.</p>
             </div>
 
             <form className="order-form" noValidate>
@@ -399,7 +435,7 @@ export default function HomeMarkup() {
               </fieldset>
 
               <div className="o-file" aria-hidden="true">
-                <span className="o-file-name">My Vision of India: The Short Edition</span>
+                <span className="o-file-name">My Vision of India</span>
                 <span className="o-file-meta">PDF<i>·</i>325 pages<i>·</i>26 MB</span>
               </div>
 
@@ -420,7 +456,7 @@ export default function HomeMarkup() {
               <h3 className="done-title" tabIndex={-1}>Thank you, <span data-done-name></span>.</h3>
               <p className="done-text" data-done-text></p>
               <div className="done-actions">
-                <a className="pill solid" data-book-link href="/My-Vision-of-India-The-Short-Edition.pdf" target="_blank" rel="noopener" download="My Vision of India - The Short Edition.pdf">Download again</a>
+                <a className="pill solid" data-book-link href="/My-Vision-of-India.pdf" target="_blank" rel="noopener" download="My Vision of India.pdf">Download again</a>
                 <button type="button" className="done-close" data-close-order>Close</button>
               </div>
             </div>

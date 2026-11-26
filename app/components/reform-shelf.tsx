@@ -5,7 +5,7 @@ import { SHELVES, type Shelf, type ShelfPart, type ShelfReform } from '../reform
 // series sharing one binding. Resting on a spine (or tapping it) turns the volume round to show its cover and a
 // short entry. Styles: app/reform-shelf.css. Behaviour: public/js/shelf.js, so keep class names in step with both.
 
-const PDF = '/My-Vision-of-India-The-Short-Edition.pdf';
+const PDF = '/My-Vision-of-India.pdf';
 const MARK = { One: 'I', Two: 'II', Three: 'III' } as const;
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 
@@ -108,7 +108,7 @@ export default function ReformShelf() {
       <div className="rs">
         <header className="rs-head"><h2 id="rs-h">The Reforms</h2><span>41 reforms · 3 books · 13 parts</span></header>
         <p className="rs-lede">Forty-one reforms from three books, shelved under the parts the book itself uses.</p>
-        <p className="rs-help">Hover over a spine, or tap it, to turn the volume round. Each one is a chapter of The Short Edition, with its pages.</p>
+        <p className="rs-help">Hover over a spine, or tap it, to turn the volume round. Each one is a chapter of the book, with its pages.</p>
 
         {SHELVES.map((shelf) => {
           const hid = `rs-shelf-${shelf.ordinal.toLowerCase()}`;
@@ -142,7 +142,7 @@ export default function ReformShelf() {
         })}
 
         <footer className="rs-foot">
-          <span>Page numbers are from <i>My Vision of India: The Short Edition</i>, first edition, 2026.</span>
+          <span>Page numbers are from <i>My Vision of India</i>, first edition, 2026.</span>
           <span>16 + 11 + 14 = 41</span>
         </footer>
       </div>

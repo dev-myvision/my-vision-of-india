@@ -1,6 +1,6 @@
 // The forty-one reforms as they stand on the home page's shelves (app/components/reform-shelf.tsx).
 // Titles, subtitles and the one-sentence summaries are the book's own ("In one sentence" in each chapter);
-// page numbers are those of My Vision of India: The Short Edition. Each part of a book is a series of
+// page numbers are those of the book PDF, My Vision of India. Each part of a book is a series of
 // volumes sharing one binding: its cloth, its foil and a spine design.
 //
 // Generated from the approved preview (previews/reforms-shelf-dark.html); edit here from now on.

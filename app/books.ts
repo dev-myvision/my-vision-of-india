@@ -1,4 +1,4 @@
-// The three books, in the words of "My Vision of India: The Short Edition".
+// The three books, in the words of "My Vision of India".
 // Each book page (app/[book]/page.tsx) is built from this file.
 
 export type Reform = { n: number; title: string; line: string };

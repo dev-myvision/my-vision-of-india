@@ -6,11 +6,17 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   cacheComponents: true,
+  async redirects() {
+    return [
+      // The book PDF was renamed; links shared under the old name still reach it.
+      { source: '/My-Vision-of-India-The-Short-Edition.pdf', destination: '/My-Vision-of-India.pdf', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
         // The book is handed out through the download form, so keep the PDF itself out of search results.
-        source: '/My-Vision-of-India-The-Short-Edition.pdf',
+        source: '/My-Vision-of-India.pdf',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
       },
       {

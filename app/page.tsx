@@ -9,7 +9,7 @@ import './home.css';
 import './reform-shelf.css';
 
 export const metadata = pageMetadata({
-  title: 'My Vision of India: The Short Edition by Joshua Paul Voola',
+  title: 'My Vision of India by Joshua Paul Voola',
   description:
     'Three books on governing India, building prosperity and a safe, caring nation, in one volume you can read in a few evenings. Free to download.',
   path: '/',
@@ -29,7 +29,7 @@ const bookJsonLd = {
   bookFormat: 'https://schema.org/EBook',
   numberOfPages: 325,
   datePublished: '2026',
-  bookEdition: 'The Short Edition, first edition',
+  bookEdition: 'First edition',
   isAccessibleForFree: true,
   hasPart: BOOKS.map((b) => ({ '@type': 'Book', name: `Book ${b.ordinal}: ${b.title}`, url: absoluteUrl(`/${b.slug}`) })),
 };

@@ -26,7 +26,7 @@ export default function BookPage({ slug }: { slug: string }) {
         <h1>{book.title}</h1>
         <p className="pg-tag">{book.tagline}</p>
         <p className="pg-lede">
-          {count} reforms from <i>My Vision of India: The Short Edition</i>, the shorter volume of three books by {AUTHOR}.
+          {count} reforms from <i>My Vision of India</i>, the shorter volume of three books by {AUTHOR}.
         </p>
       </header>
 

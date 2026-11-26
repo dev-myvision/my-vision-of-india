@@ -16,7 +16,7 @@ export const SITE_URL = (
 export const INDEXABLE = !process.env.VERCEL_ENV || process.env.VERCEL_ENV === 'production';
 
 export const SITE_NAME = 'My Vision of India';
-export const BOOK_TITLE = 'My Vision of India: The Short Edition';
+export const BOOK_TITLE = 'My Vision of India';
 export const AUTHOR = 'Joshua Paul Voola';
 
 export const SITE_DESCRIPTION =

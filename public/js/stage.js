@@ -1,5 +1,5 @@
 /* ============================================================================
-   My Vision of India: The Short Edition
+   My Vision of India
    A scroll-driven stage. The book stands where a statue would; the camera flies
    one full orbit around it as the page scrolls, forge-like sparks rise, and a
    slow wave shader breathes behind, turning from the cover's maroon to its teal.
@@ -554,7 +554,7 @@ function buildBook(frontImage, backImage) {
     };
 
     const front = printed(frontImage || plainCover(['My Vision', 'of India']), HINGE_U);
-    const back  = printed(backImage  || plainCover(['The Short', 'Edition']), 1 - HINGE_U);
+    const back  = printed(backImage  || plainCover(['Three books,', 'one volume']), 1 - HINGE_U);
     const spineMaterial = printed(spine);
     spineMaterial.side = THREE.DoubleSide;
     const cloth = new THREE.MeshPhysicalMaterial({ color: MAROON, roughness: CLOTH_ROUGHNESS, metalness: 0.0, specularIntensity: CLOTH_SHEEN, envMapIntensity: 0.6 });

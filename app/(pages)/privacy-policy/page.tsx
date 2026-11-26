@@ -30,7 +30,7 @@ export default function PrivacyPolicy() {
 
             <h2 style={{ marginTop: 28 }}>Who we are</h2>
             <p>
-              This website, {SITE_NAME}, presents the book <i>My Vision of India: The Short Edition</i> by {AUTHOR}. In this
+              This website, {SITE_NAME}, presents the book <i>My Vision of India</i> by {AUTHOR}. In this
               policy “we” means the people who run the site. You can write to us about anything in this policy at <Email />.
             </p>
 

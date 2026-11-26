@@ -257,8 +257,8 @@ document.addEventListener('click', (e) => {
 // SHEET_URL is the web app address of the Apps Script in google-sheet-script.gs (see that file);
 // until it is set, the download still works and nothing is recorded.
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw4MWiv1bAAyNkTi6Ru_7VmuK9AiQtU6g6uQ_fZbOo6GvbOm5CgHaBcadtEgjozsnI6/exec';
-const BOOK_FILE = '/My-Vision-of-India-The-Short-Edition.pdf';
-const BOOK_SAVE_AS = 'My Vision of India - The Short Edition.pdf';
+const BOOK_FILE = '/My-Vision-of-India.pdf';
+const BOOK_SAVE_AS = 'My Vision of India.pdf';
 
 (() => {
     const dialog = document.getElementById('order');
