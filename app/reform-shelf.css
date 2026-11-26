@@ -21,8 +21,8 @@
     --script: var(--ff-pinyon), 'Snell Roundhand', 'Apple Chancery', cursive;
     --expo: cubic-bezier(0.16, 1, 0.3, 1);
     --quart: cubic-bezier(0.25, 1, 0.5, 1);
-    --nw: 250px;          /* the catalogue entry beside an open cover */
-    --row-h: 404px;       /* room above the tallest spine for the entry */
+    --nw: 360px;          /* the catalogue entry beside an open cover */
+    --row-h: 456px;       /* room above the tallest spine for the tallest entry (444px, measured) */
     /* the site's velvet, darkened, with a vignette at the edges */
     background: radial-gradient(ellipse 120% 95% at 50% 40%, transparent 50%, rgba(10, 1, 5, 0.6) 100%),
         linear-gradient(rgba(16, 4, 8, 0.5), rgba(16, 4, 8, 0.5)),
@@ -34,20 +34,20 @@
 .rs-sec .rs { max-width: 1220px; margin: 0 auto; }
 
 /* The header, as in the reference: a rule, the name, a rule, then two lines of introduction. */
-.rs-sec .rs-head { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 16px 0 14px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-.rs-sec .rs-head h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 27px; letter-spacing: 0.01em; }
-.rs-sec .rs-head span { font-family: var(--type); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
-.rs-sec .rs-lede { margin: 22px 0 0; font-family: var(--body); font-weight: 600; font-size: 15.5px; line-height: 1.5; max-width: 76ch; text-wrap: pretty; }
-.rs-sec .rs-help { margin: 6px 0 0; font-family: var(--type); font-size: 11.5px; line-height: 1.6; color: var(--soft); max-width: 70ch; }
+.rs-sec .rs-head { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 20px 0 18px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.rs-sec .rs-head h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 1.1; letter-spacing: 0.01em; }
+.rs-sec .rs-head span { font-family: var(--type); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
+.rs-sec .rs-lede { margin: 28px 0 0; font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 1.4; max-width: 60ch; text-wrap: pretty; }
+.rs-sec .rs-help { margin: 12px 0 0; font-family: var(--type); font-size: 13px; line-height: 1.7; color: var(--soft); max-width: 70ch; }
 
 /* One shelf per book, under a two-ended header. */
-.rs-sec .shelf { margin-top: 64px; }
-.rs-sec .shelf-head { position: relative; text-align: center; padding-top: 4px; margin-bottom: 4px; }
-.rs-sec .shelf-head > span { position: absolute; top: 0; font-family: var(--type); font-size: 11px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--soft); }
+.rs-sec .shelf { margin-top: 96px; }
+.rs-sec .shelf-head { position: relative; text-align: center; padding-top: 4px; margin-bottom: 22px; }
+.rs-sec .shelf-head > span { position: absolute; top: 0; font-family: var(--type); font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: var(--soft); }
 .rs-sec .shelf-head > span:first-child { left: 0; }
 .rs-sec .shelf-head > span:nth-child(2) { right: 0; letter-spacing: 0.3em; }
-.rs-sec .shelf-head h3 { margin: 0; padding-top: 22px; font-family: var(--script); font-weight: 400; font-size: 44px; line-height: 1.1; color: var(--script-ink); }
-.rs-sec .shelf-head p { margin: 2px 0 0; font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--soft); }
+.rs-sec .shelf-head h3 { margin: 0; padding-top: 26px; font-family: var(--script); font-weight: 400; font-size: 52px; line-height: 1.1; color: var(--script-ink); }
+.rs-sec .shelf-head p { margin: 4px 0 0; font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--soft); }
 
 .rs-sec .row-wrap { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; margin-inline: -12px; padding: 0 12px 4px; scroll-behavior: smooth; }
 .rs-sec .row-wrap::-webkit-scrollbar { display: none; }
@@ -57,16 +57,16 @@
 .rs-sec .vols { position: relative; display: flex; gap: 3px; align-items: flex-end; height: var(--row-h); }
 .rs-sec .vols::after { content: ""; position: absolute; left: -8px; right: -8px; bottom: -4px; height: 8px; z-index: -1;
   background: radial-gradient(ellipse 50% 100% at 50% 0, var(--floor), transparent 75%); }
-.rs-sec .run-label { margin: 14px 0 0; padding-top: 7px; border-top: 1px solid var(--rule); width: 0; min-width: 100%;
-  font-family: var(--type); font-size: 9px; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); overflow-wrap: normal; }
-.rs-sec .run-label span { display: block; margin-top: 2px; letter-spacing: 0.08em; text-transform: none; font-style: italic; opacity: 0.85; }
-.rs-sec .run:last-child .run-label { min-width: max(100%, 7rem); }
+.rs-sec .run-label { margin: 18px 0 0; padding-top: 9px; border-top: 1px solid var(--rule); width: 0; min-width: 100%;
+  font-family: var(--type); font-size: 11px; line-height: 1.5; letter-spacing: 0.03em; text-transform: uppercase; color: var(--soft); overflow-wrap: normal; }
+.rs-sec .run-label span { display: block; margin-top: 4px; letter-spacing: 0.08em; text-transform: none; font-style: italic; opacity: 0.85; }
+.rs-sec .run:last-child .run-label { min-width: max(100%, 8rem); }
 
 /* ---- A volume: the spine, and behind it the cover and its entry ---- */
 .rs-sec .vol { --cw: calc(var(--h) * 0.7); --d: calc(var(--i) * 26ms);
   position: relative; flex: none; width: var(--sw); height: var(--h);
   transition: width 0.8s var(--expo), opacity 0.7s ease var(--d), transform 1s var(--expo) var(--d); }
-.rs-sec .vol.is-open { width: calc(var(--cw) + 24px + var(--nw) + 10px); }
+.rs-sec .vol.is-open { width: calc(var(--cw) + 24px + var(--nw) + 4px); }
 
 /* Book cloth: a fine weave, a rounded spine, and clean gilt. */
 .rs-sec .spine, .rs-sec .cover {
@@ -109,11 +109,11 @@
 .rs-sec [data-light] .spine .sn, .rs-sec [data-light] .spine .st, .rs-sec [data-light] .spine .sm { text-shadow: 0 1px 0 rgba(255,250,235,0.6); }
 .rs-sec [data-s="block"] .spine .sm { color: var(--f2); }
 
-.rs-sec .sn { font-family: var(--caps); font-weight: 600; font-size: 10.5px; letter-spacing: 0.04em; }
+.rs-sec .sn { font-family: var(--caps); font-weight: 600; font-size: 11px; letter-spacing: 0.04em; }
 .rs-sec .st { flex: 1; min-height: 0; writing-mode: vertical-rl; text-align: center; overflow: hidden;
   font-family: var(--caps); font-weight: 600; font-size: 9.6px; line-height: 1.25; letter-spacing: 0.1em; text-transform: uppercase; }
 .rs-sec .st .ap { letter-spacing: 0; margin-block: -0.08em -0.04em; }
-.rs-sec .sm { font-family: var(--caps); font-weight: 600; font-size: 9px; letter-spacing: 0.06em; }
+.rs-sec .sm { font-family: var(--caps); font-weight: 600; font-size: 10px; letter-spacing: 0.06em; }
 .rs-sec .sm::before { content: ""; display: block; width: 12px; height: 1px; margin: 0 auto 5px; background: var(--foil); opacity: 0.6; }
 .rs-sec [data-s="block"] .st { margin-bottom: calc(var(--h) * 0.24 - 30px); }
 
@@ -153,48 +153,51 @@
 
 /* A gilt double rule with corner pieces, the series line, the number, a fleuron, the title, the imprint. */
 .rs-sec .frame { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 17px 11px 13px; border: 1px solid color-mix(in srgb, var(--foil) 75%, transparent); outline: 0.7px solid color-mix(in srgb, var(--foil) 60%, transparent); outline-offset: -5px; }
+  padding: 15px 10px 11px; border: 1px solid color-mix(in srgb, var(--foil) 75%, transparent); outline: 0.7px solid color-mix(in srgb, var(--foil) 60%, transparent); outline-offset: -5px; }
 .rs-sec .frame > span { display: block; }
 .rs-sec .cnr { position: absolute; width: 22px; height: 22px; color: var(--foil); opacity: 0.9; -webkit-mask-image: var(--wear); mask-image: var(--wear); -webkit-mask-size: 90px; mask-size: 90px; }
 .rs-sec .cnr.tl { top: 3px; left: 3px; }
 .rs-sec .cnr.tr { top: 3px; right: 3px; transform: scaleX(-1); }
 .rs-sec .cnr.bl { bottom: 3px; left: 3px; transform: scaleY(-1); }
 .rs-sec .cnr.br { bottom: 3px; right: 3px; transform: scale(-1); }
-.rs-sec .ser { font-family: var(--caps); font-weight: 600; font-size: 6.6px; letter-spacing: 0.3em; text-transform: uppercase; }
-.rs-sec .ck { margin-top: 9px; font-family: var(--caps); font-weight: 600; font-size: 7px; letter-spacing: 0.32em; text-transform: uppercase; }
-.rs-sec .cn { font-family: var(--serif); font-weight: 600; font-size: 36px; line-height: 1.05; font-variant-numeric: lining-nums; }
-.rs-sec .orn { width: 58px; height: 8px; margin: 5px 0 9px; color: var(--foil); flex: none; -webkit-mask-image: var(--wear); mask-image: var(--wear); -webkit-mask-size: 90px; mask-size: 90px; }
+.rs-sec .ser { font-family: var(--caps); font-weight: 600; font-size: 7.4px; letter-spacing: 0.24em; text-transform: uppercase; }
+.rs-sec .ck { margin-top: 6px; font-family: var(--caps); font-weight: 600; font-size: 7.8px; letter-spacing: 0.28em; text-transform: uppercase; }
+.rs-sec .cn { font-family: var(--serif); font-weight: 600; font-size: 32px; line-height: 1; font-variant-numeric: lining-nums; }
+.rs-sec .orn { width: 58px; height: 8px; margin: 4px 0 7px; color: var(--foil); flex: none; -webkit-mask-image: var(--wear); mask-image: var(--wear); -webkit-mask-size: 90px; mask-size: 90px; }
 .rs-sec .lbl { display: block; }
 .rs-sec .ctt { display: block; font-family: var(--caps); font-weight: 600; font-size: 12.4px; line-height: 1.3; letter-spacing: 0.05em; text-transform: uppercase; text-wrap: balance; }
-.rs-sec .cs { display: block; margin-top: 6px; font-family: var(--serif); font-style: italic; font-size: 11px; line-height: 1.3; opacity: 0.82; text-wrap: balance; }
-.rs-sec .cb { margin-top: auto; padding-top: 8px; font-family: var(--caps); font-weight: 600; font-size: 6.6px; letter-spacing: 0.26em; text-transform: uppercase; }
-.rs-sec .cb i { display: block; margin-top: 3px; font-family: var(--serif); font-weight: 500; font-size: 10.5px; letter-spacing: 0.02em; text-transform: none; }
-.rs-sec [data-s="label"] .lbl { margin-inline: 2px; padding: 10px 8px 9px; border: 0.8px solid color-mix(in srgb, var(--foil) 80%, transparent); outline: 0.6px solid color-mix(in srgb, var(--foil) 55%, transparent); outline-offset: 2px; }
+.rs-sec .cs { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; margin-top: 5px; font-family: var(--serif); font-style: italic; font-size: 11.5px; line-height: 1.28; opacity: 0.82; text-wrap: balance; }
+.rs-sec .cb { margin-top: auto; padding-top: 6px; font-family: var(--caps); font-weight: 600; font-size: 7.4px; letter-spacing: 0.22em; text-transform: uppercase; }
+.rs-sec .cb i { display: block; margin-top: 2px; font-family: var(--serif); font-weight: 500; font-size: 11px; letter-spacing: 0.02em; text-transform: none; }
+.rs-sec [data-s="label"] .lbl { margin-inline: 2px; padding: 8px 6px 7px; border: 0.8px solid color-mix(in srgb, var(--foil) 80%, transparent); outline: 0.6px solid color-mix(in srgb, var(--foil) 55%, transparent); outline-offset: 2px; }
 
 /* The catalogue entry beside the cover. */
+/* A closed volume's entry is taken out of the layout (display: none), so it cannot widen the shelf;
+   it fades in from that state when the volume opens. */
 .rs-sec .note { position: absolute; left: calc(var(--cw) + 24px); bottom: 0; width: var(--nw);
-  opacity: 0; transform: translateX(-14px); visibility: hidden;
-  transition: opacity 0.2s ease, transform 0.3s var(--expo), visibility 0s linear 0.3s; }
-.rs-sec .vol.is-open .note { opacity: 1; transform: none; visibility: visible; pointer-events: auto;
-  transition: opacity 0.55s ease 0.34s, transform 0.9s var(--expo) 0.34s, visibility 0s; }
-.rs-sec .note h4, .rs-sec .detail h4 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 21px; line-height: 1.12; text-wrap: balance; }
-.rs-sec .note .sub, .rs-sec .detail .sub { margin: 4px 0 0; font-family: var(--serif); font-style: italic; font-size: 14px; line-height: 1.3; color: var(--soft); }
-.rs-sec .note .one, .rs-sec .detail .one { margin: 12px 0 0; font-family: var(--body); font-size: 13px; line-height: 1.5; color: var(--ink); opacity: 0.88; }
-.rs-sec .note dl, .rs-sec .detail dl { margin: 14px 0 0; }
-.rs-sec .note dl div, .rs-sec .detail dl div { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 5px 0 4px; border-top: 1px solid var(--rule); }
+  display: none; opacity: 0; transform: translateX(-14px);
+  transition: opacity 0.2s ease, transform 0.3s var(--expo), display 0.3s allow-discrete; }
+.rs-sec .vol.is-open .note { display: block; opacity: 1; transform: none; pointer-events: auto;
+  transition: opacity 0.55s ease 0.34s, transform 0.9s var(--expo) 0.34s, display 0s; }
+@starting-style { .rs-sec .vol.is-open .note { opacity: 0; transform: translateX(-14px); } }
+.rs-sec .note h4, .rs-sec .detail h4 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: 26px; line-height: 1.1; text-wrap: balance; }
+.rs-sec .note .sub, .rs-sec .detail .sub { margin: 6px 0 0; font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 1.3; color: var(--soft); }
+.rs-sec .note .one, .rs-sec .detail .one { margin: 14px 0 0; font-family: var(--serif); font-weight: 500; font-size: 17.5px; line-height: 1.42; color: var(--ink); opacity: 0.9; }
+.rs-sec .note dl, .rs-sec .detail dl { margin: 18px 0 0; }
+.rs-sec .note dl div, .rs-sec .detail dl div { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding: 7px 0 6px; border-top: 1px solid var(--rule); }
 .rs-sec .note dl div:last-child, .rs-sec .detail dl div:last-child { border-bottom: 1px solid var(--rule); }
-.rs-sec .note dt, .rs-sec .detail dt { font-family: var(--type); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--soft); padding-top: 3px; }
-.rs-sec .note dd, .rs-sec .detail dd { margin: 0; font-family: var(--body); font-size: 12.5px; line-height: 1.35; font-variant-numeric: tabular-nums; }
-.rs-sec .read { display: inline-block; margin-top: 12px; font-family: var(--type); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+.rs-sec .note dt, .rs-sec .detail dt { font-family: var(--type); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); padding-top: 4px; }
+.rs-sec .note dd, .rs-sec .detail dd { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 17px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.rs-sec .read { display: inline-block; margin-top: 16px; font-family: var(--type); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-underline-offset 0.3s var(--expo); }
 .rs-sec .read:hover { text-underline-offset: 6px; }
 .rs-sec .read:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
 
 .rs-sec .detail { display: none; }
 
-.rs-sec .rs-foot { margin-top: 72px; padding-top: 12px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px;
-  font-family: var(--type); font-size: 10.5px; line-height: 1.6; letter-spacing: 0.04em; color: var(--soft); }
-.rs-sec .rs-foot i { font-family: var(--serif); font-size: 13px; letter-spacing: 0; }
+.rs-sec .rs-foot { margin-top: 88px; padding-top: 14px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px;
+  font-family: var(--type); font-size: 12px; line-height: 1.7; letter-spacing: 0.04em; color: var(--soft); }
+.rs-sec .rs-foot i { font-family: var(--serif); font-size: 16px; letter-spacing: 0; }
 
 /* The shelves arrive one volume after another as they come into view. */
 .rs-sec .shelf.await .vol { opacity: 0; transform: translateY(22px); }
@@ -205,16 +208,17 @@
 }
 @media (max-width: 720px) {
   .ba .wd-sec.rs-sec { --nw: 0px; --row-h: 300px; }
-  .rs-sec .rs-head h2 { font-size: 23px; }
+  .rs-sec .rs-head h2 { font-size: 30px; }
+  .rs-sec .rs-lede { font-size: 20px; }
   .rs-sec .rs-head span { display: none; }
-  .rs-sec .shelf { margin-top: 52px; }
-  .rs-sec .shelf-head > span { font-size: 9.5px; letter-spacing: 0.24em; }
-  .rs-sec .shelf-head h3 { font-size: 36px; }
+  .rs-sec .shelf { margin-top: 72px; }
+  .rs-sec .shelf-head > span { font-size: 11px; letter-spacing: 0.2em; }
+  .rs-sec .shelf-head h3 { font-size: 42px; }
   .rs-sec .vol.is-open { width: calc(var(--cw) + 6px); }
-  .rs-sec .note { display: none; }
+  .rs-sec .vol .note, .rs-sec .vol.is-open .note { display: none; }
   .rs-sec .detail { display: block; margin-top: 22px; transition: opacity 0.25s ease, transform 0.45s var(--expo); }
   .rs-sec .detail.swap { opacity: 0; transform: translateY(6px); }
-  .rs-sec .detail .one { font-size: 14px; }
+  .rs-sec .detail .one { font-size: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
