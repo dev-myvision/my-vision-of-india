@@ -5,16 +5,24 @@
 import { BOOKS } from '../books';
 import { AUTHOR, SITE_NAME, absoluteUrl } from '../site';
 
+const HEADER_LINKS = [
+  { name: 'Vision', href: '/' },
+  { name: 'Author', href: '/#author' },
+  { name: 'The Books', href: '/#books' },
+  { name: 'Reforms', href: '/#reforms' },
+  { name: 'Contact', href: '/contact' },
+];
+
 export function SiteHeader() {
   return (
     <header className="pg-head">
       <a className="pg-brand" href="/">{SITE_NAME}</a>
+      {/* The same five links as the home page's header, so the header never changes between pages. */}
       <nav className="pg-nav" aria-label="Site">
         <ul>
-          {BOOKS.map((b) => (
-            <li key={b.slug}><a href={`/${b.slug}`}>{b.title}</a></li>
+          {HEADER_LINKS.map((l) => (
+            <li key={l.href}><a href={l.href}>{l.name}</a></li>
           ))}
-          <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
       <a className="pg-get" href="/#make-it-yours">Get the book</a>
